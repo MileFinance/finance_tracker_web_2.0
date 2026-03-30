@@ -1,13 +1,8 @@
-type AssetBucket = {
-  value: number;
-  cost: number;
-};
+import type { PositionWithMetrics } from "@/lib/api/types";
 
-const summary = {
-  by_asset_type: {
-    Stocks: { value: 124.48, cost: 143.15 },
-    "Index Fund": { value: 7524.17, cost: 7278.8 },
-  } as Record<string, AssetBucket>,
+type Props = {
+  positions: PositionWithMetrics[];
+  loading?: boolean;
 };
 
 const palette = [
@@ -27,8 +22,18 @@ const formatCurrency = (value: number) =>
     maximumFractionDigits: 2,
   }).format(value);
 
-export default function AssetAllocationChart() {
-  const entries = Object.entries(summary.by_asset_type)
+export default function AssetAllocationChart({ positions, loading }: Props) {
+  // Derive by asset type from positions
+  const byType = positions.reduce(
+    (acc, p, index) => {
+      if (!acc[p.asset_type]) acc[p.asset_type] = { value: 0, colorIndex: Object.keys(acc).length };
+      acc[p.asset_type].value += p.total_value;
+      return acc;
+    },
+    {} as Record<string, { value: number; colorIndex: number }>,
+  );
+
+  const entries = Object.entries(byType)
     .map(([name, data], index) => ({
       name,
       value: data.value,
@@ -64,43 +69,48 @@ export default function AssetAllocationChart() {
           <p className="text-sm text-neutral-300">Distribution of your portfolio value across asset classes.</p>
         </header>
 
-        <div className="grid gap-6 lg:grid-cols-[220px_1fr] lg:items-center">
-          <div className="mx-auto">
-            <div
-              className="grid h-52 w-52 place-items-center rounded-full border border-[#252545]"
-              style={{ backgroundImage: donutBackground }}
-            >
-              <div className="grid h-28 w-28 place-items-center rounded-full bg-[#07070e] ring-1 ring-[#252545]">
-                <div className="text-center">
-                  <p className="text-xs uppercase tracking-[0.14em] text-neutral-400">Total</p>
-                  <p className="text-sm font-bold text-white">{formatCurrency(total)}</p>
+        {loading && slices.length === 0 && <p className="text-sm text-neutral-400">Loading&hellip;</p>}
+        {!loading && slices.length === 0 && <p className="text-sm text-neutral-500">No positions yet.</p>}
+
+        {slices.length > 0 && (
+          <div className="grid gap-6 lg:grid-cols-[220px_1fr] lg:items-center">
+            <div className="mx-auto">
+              <div
+                className="grid h-52 w-52 place-items-center rounded-full border border-[#252545]"
+                style={{ backgroundImage: donutBackground }}
+              >
+                <div className="grid h-28 w-28 place-items-center rounded-full bg-[#07070e] ring-1 ring-[#252545]">
+                  <div className="text-center">
+                    <p className="text-xs uppercase tracking-[0.14em] text-neutral-400">Total</p>
+                    <p className="text-sm font-bold text-white">{formatCurrency(total)}</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <ul className="space-y-3">
-            {slices.map((slice) => (
-              <li
-                key={slice.name}
-                className="flex items-center justify-between rounded-2xl border border-[#252545] bg-[#04040a] px-4 py-3"
-              >
-                <div className="flex items-center gap-3">
-                  <span
-                    className="h-3 w-3 rounded-full"
-                    style={{ backgroundColor: slice.color }}
-                    aria-hidden="true"
-                  />
-                  <p className="text-sm font-semibold text-white">{slice.name}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm font-semibold text-white">{formatCurrency(slice.value)}</p>
-                  <p className="text-xs text-neutral-400">{(slice.percent * 100).toFixed(2)}%</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+            <ul className="space-y-3">
+              {slices.map((slice) => (
+                <li
+                  key={slice.name}
+                  className="flex items-center justify-between rounded-2xl border border-[#252545] bg-[#04040a] px-4 py-3"
+                >
+                  <div className="flex items-center gap-3">
+                    <span
+                      className="h-3 w-3 rounded-full"
+                      style={{ backgroundColor: slice.color }}
+                      aria-hidden="true"
+                    />
+                    <p className="text-sm font-semibold text-white">{slice.name}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-semibold text-white">{formatCurrency(slice.value)}</p>
+                    <p className="text-xs text-neutral-400">{(slice.percent * 100).toFixed(1)}%</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </section>
   );

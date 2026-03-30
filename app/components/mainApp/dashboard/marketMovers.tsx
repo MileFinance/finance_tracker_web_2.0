@@ -1,27 +1,14 @@
-type Position = {
-  ticker: string;
-  current_price: number;
-  previous_close: number;
+import type { PositionWithMetrics } from "@/lib/api/types";
+
+type Props = {
+  positions: PositionWithMetrics[];
+  loading?: boolean;
 };
 
-const positions: Position[] = [
-  { ticker: "AMZN", current_price: 177.7, previous_close: 179.4 },
-  { ticker: "SPY", current_price: 512.9, previous_close: 507.2 },
-  { ticker: "QQQ", current_price: 447.4, previous_close: 443.1 },
-  { ticker: "BTC", current_price: 62100, previous_close: 63520 },
-  { ticker: "GLD", current_price: 192.4, previous_close: 191.2 },
-  { ticker: "AAPL", current_price: 194.3, previous_close: 189.5 },
-];
-
-function dailyChange(current: number, previous: number) {
-  if (!previous) return 0;
-  return (current - previous) / previous;
-}
-
-export default function MarketMovers() {
+export default function MarketMovers({ positions, loading }: Props) {
   const rows = positions.map((p) => ({
-    ...p,
-    change: dailyChange(p.current_price, p.previous_close),
+    ticker: p.ticker,
+    change: p.daily_change_percent,
   }));
 
   const gainers = [...rows].sort((a, b) => b.change - a.change).slice(0, 3);
@@ -34,30 +21,35 @@ export default function MarketMovers() {
         <h3 className="text-xl font-semibold text-white sm:text-2xl">Top Gainers and Losers</h3>
       </header>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        <div className="rounded-2xl border border-[#252545] bg-[#04040a] p-4">
-          <p className="mb-3 text-sm font-semibold text-[#2dd4bf]">Top Gainers</p>
-          <ul className="space-y-2">
-            {gainers.map((row) => (
-              <li key={row.ticker} className="flex items-center justify-between text-sm text-white">
-                <span>{row.ticker}</span>
-                <span className="font-semibold text-[#2dd4bf]">+{(row.change * 100).toFixed(2)}%</span>
-              </li>
-            ))}
-          </ul>
+      {loading && rows.length === 0 && <p className="text-sm text-neutral-400">Loading&hellip;</p>}
+      {!loading && rows.length === 0 && <p className="text-sm text-neutral-500">No positions to display.</p>}
+
+      {rows.length > 0 && (
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="rounded-2xl border border-[#252545] bg-[#04040a] p-4">
+            <p className="mb-3 text-sm font-semibold text-[#2dd4bf]">Top Gainers</p>
+            <ul className="space-y-2">
+              {gainers.map((row) => (
+                <li key={row.ticker} className="flex items-center justify-between text-sm text-white">
+                  <span>{row.ticker}</span>
+                  <span className="font-semibold text-[#2dd4bf]">+{(row.change * 100).toFixed(2)}%</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="rounded-2xl border border-[#252545] bg-[#04040a] p-4">
+            <p className="mb-3 text-sm font-semibold text-rose-300">Top Losers</p>
+            <ul className="space-y-2">
+              {losers.map((row) => (
+                <li key={row.ticker} className="flex items-center justify-between text-sm text-white">
+                  <span>{row.ticker}</span>
+                  <span className="font-semibold text-rose-300">{(row.change * 100).toFixed(2)}%</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-        <div className="rounded-2xl border border-[#252545] bg-[#04040a] p-4">
-          <p className="mb-3 text-sm font-semibold text-rose-300">Top Losers</p>
-          <ul className="space-y-2">
-            {losers.map((row) => (
-              <li key={row.ticker} className="flex items-center justify-between text-sm text-white">
-                <span>{row.ticker}</span>
-                <span className="font-semibold text-rose-300">{(row.change * 100).toFixed(2)}%</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      )}
     </section>
   );
 }

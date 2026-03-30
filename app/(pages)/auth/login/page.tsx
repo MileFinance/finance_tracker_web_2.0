@@ -1,7 +1,30 @@
 
+"use client";
+
 import Link from "next/link";
+import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/app/hooks/api/useAuth";
 
 export default function LoginView() {
+    const router = useRouter();
+    const { login, authError, clearAuthError } = useAuth();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        clearAuthError();
+        setIsSubmitting(true);
+        try {
+            await login({ email, password });
+            router.push("/mainApp?view=dashboard");
+        } finally {
+            setIsSubmitting(false);
+        }
+    }
+
     return (
         <main className="relative min-h-screen overflow-hidden bg-black px-4 py-12 sm:px-6 lg:px-8">
             <div className="pointer-events-none absolute inset-0">
@@ -34,17 +57,25 @@ export default function LoginView() {
                             <p className="mt-2 text-sm text-neutral-700">Use your credentials to access your finance workspace.</p>
                         </div>
 
-                        <form action="" className="space-y-4">
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            {authError ? (
+                                <p className="rounded-xl border border-rose-400/40 bg-rose-100 px-3 py-2 text-sm text-rose-700">
+                                    {authError}
+                                </p>
+                            ) : null}
                             <div className="space-y-2">
-                                <label htmlFor="username" className="text-sm font-semibold text-black">
-                                    Username
+                                <label htmlFor="email" className="text-sm font-semibold text-black">
+                                    Email
                                 </label>
                                 <input
-                                    id="username"
-                                    name="username"
-                                    type="text"
-                                    autoComplete="username"
-                                    placeholder="Enter your username"
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    autoComplete="email"
+                                    required
+                                    value={email}
+                                    onChange={(event) => setEmail(event.target.value)}
+                                    placeholder="Enter your email"
                                     className="h-12 w-full rounded-xl border border-neutral-300 bg-white px-4 text-black placeholder-black outline-none ring-0 transition focus:border-[#9ef01a] focus:shadow-[0_0_0_4px_rgba(158,240,26,0.25)]"
                                 />
                             </div>
@@ -58,6 +89,9 @@ export default function LoginView() {
                                     name="password"
                                     type="password"
                                     autoComplete="current-password"
+                                    required
+                                    value={password}
+                                    onChange={(event) => setPassword(event.target.value)}
                                     placeholder="Enter your password"
                                     className="h-12 w-full rounded-xl border border-neutral-300 bg-white px-4 text-black placeholder-black outline-none ring-0 transition focus:border-[#9ef01a] focus:shadow-[0_0_0_4px_rgba(158,240,26,0.25)]"
                                 />
@@ -75,9 +109,10 @@ export default function LoginView() {
 
                             <button
                                 type="submit"
+                                disabled={isSubmitting}
                                 className="mt-3 h-12 w-full rounded-xl bg-black text-sm font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[#9ef01a] hover:text-black focus:outline-none focus:shadow-[0_0_0_4px_rgba(158,240,26,0.35)]"
                             >
-                                Log In
+                                {isSubmitting ? "Signing in..." : "Log In"}
                             </button>
 
                             <p className="pt-2 text-center text-sm text-neutral-700">

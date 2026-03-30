@@ -1,24 +1,35 @@
-const byAssetType = {
-  Stocks: { gain_percent: -0.1305 },
-  "Index Fund": { gain_percent: 0.0337 },
-  Crypto: { gain_percent: -0.052 },
-  "Fixed Income": { gain_percent: 0.0112 },
-  Gold: { gain_percent: 0.0245 },
-  Cash: { gain_percent: 0 },
+import type { PositionWithMetrics } from "@/lib/api/types";
+
+type Props = {
+  positions: PositionWithMetrics[];
+  loading?: boolean;
 };
 
-const rows = Object.entries(byAssetType).map(([name, values]) => ({
-  name,
-  gainPercent: values.gain_percent,
-}));
+export default function AssetTypePerformanceBars({ positions, loading }: Props) {
+  // Group positions by asset_type and compute weighted gain_percent
+  const byType = positions.reduce(
+    (acc, p) => {
+      if (!acc[p.asset_type]) acc[p.asset_type] = { total_cost: 0, total_gain: 0 };
+      acc[p.asset_type].total_cost += p.total_cost;
+      acc[p.asset_type].total_gain += p.gain;
+      return acc;
+    },
+    {} as Record<string, { total_cost: number; total_gain: number }>,
+  );
 
-export default function AssetTypePerformanceBars() {
+  const rows = Object.entries(byType).map(([name, data]) => ({
+    name,
+    gainPercent: data.total_cost > 0 ? data.total_gain / data.total_cost : 0,
+  }));
   return (
     <section className="rounded-2xl border border-[#1e1e35] bg-[#0f0f18] p-5">
       <header className="mb-4">
         <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Asset type performance</p>
         <h3 className="text-xl font-semibold text-white sm:text-2xl">Relative Gain/Loss by Class</h3>
       </header>
+
+      {loading && rows.length === 0 && <p className="text-sm text-neutral-400">Loading&hellip;</p>}
+      {!loading && rows.length === 0 && <p className="text-sm text-neutral-500">No data yet.</p>}
 
       <ul className="space-y-3">
         {rows.map((row) => {

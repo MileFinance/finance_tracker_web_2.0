@@ -1,0 +1,912 @@
+openapi: 3.0.3
+info:
+  title: Finance Tracker Backend API
+  version: 1.0.0
+  description: API contract mapped from backend routes and handlers.
+servers:
+  - url: http://localhost:8080
+paths:
+  /health:
+    get:
+      tags: [System]
+      summary: Health check
+      security: []
+      responses:
+        '200':
+          description: Backend is alive
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ok
+
+  /api/auth/register:
+    post:
+      tags: [Auth]
+      summary: Register user and return JWT
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          $ref: '#/components/responses/ErrorJsonOrText'
+        '409':
+          $ref: '#/components/responses/ErrorJsonOrText'
+
+  /api/auth/login:
+    post:
+      tags: [Auth]
+      summary: Login user and return JWT
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          $ref: '#/components/responses/ErrorJsonOrText'
+        '401':
+          $ref: '#/components/responses/ErrorJsonOrText'
+
+  /api/users/{id}:
+    get:
+      tags: [Users]
+      summary: Get user profile by id
+      parameters:
+        - $ref: '#/components/parameters/IdPathParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '401':
+          $ref: '#/components/responses/ErrorJsonOrText'
+        '404':
+          $ref: '#/components/responses/ErrorJsonOrText'
+
+  /api/portfolios/:
+    post:
+      tags: [Portfolios]
+      summary: Create portfolio
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePortfolioRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Portfolio'
+        '400':
+          $ref: '#/components/responses/ErrorJsonOrText'
+        '401':
+          $ref: '#/components/responses/ErrorJsonOrText'
+    get:
+      tags: [Portfolios]
+      summary: List user portfolios
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Portfolio'
+        '401':
+          $ref: '#/components/responses/ErrorJsonOrText'
+
+  /api/portfolios/{id}:
+    get:
+      tags: [Portfolios]
+      summary: Get portfolio by id
+      parameters:
+        - $ref: '#/components/parameters/IdPathParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Portfolio'
+        '401':
+          $ref: '#/components/responses/ErrorJsonOrText'
+        '404':
+          $ref: '#/components/responses/ErrorJsonOrText'
+    put:
+      tags: [Portfolios]
+      summary: Update portfolio
+      parameters:
+        - $ref: '#/components/parameters/IdPathParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePortfolioRequest'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Portfolio'
+        '400':
+          $ref: '#/components/responses/ErrorJsonOrText'
+        '401':
+          $ref: '#/components/responses/ErrorJsonOrText'
+        '404':
+          $ref: '#/components/responses/ErrorJsonOrText'
+    delete:
+      tags: [Portfolios]
+      summary: Delete portfolio
+      parameters:
+        - $ref: '#/components/parameters/IdPathParam'
+      responses:
+        '204':
+          description: No Content
+        '401':
+          $ref: '#/components/responses/ErrorJsonOrText'
+        '404':
+          $ref: '#/components/responses/ErrorJsonOrText'
+
+  /api/portfolios/{id}/summary:
+    get:
+      tags: [Portfolios]
+      summary: Get portfolio summary
+      parameters:
+        - $ref: '#/components/parameters/IdPathParam'
+      responses:
+        '200':
+          description: Summary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioSummary'
+        '401':
+          $ref: '#/components/responses/ErrorJsonOrText'
+        '404':
+          $ref: '#/components/responses/ErrorJsonOrText'
+
+  /api/portfolios/{portfolioId}/positions:
+    post:
+      tags: [Positions]
+      summary: Create position
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdPathParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePositionRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Position'
+    get:
+      tags: [Positions]
+      summary: List positions with metrics
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdPathParam'
+      responses:
+        '200':
+          description: Position list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PositionWithMetrics'
+
+  /api/portfolios/positions/{id}:
+    put:
+      tags: [Positions]
+      summary: Update position
+      parameters:
+        - $ref: '#/components/parameters/IdPathParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePositionRequest'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Position'
+    delete:
+      tags: [Positions]
+      summary: Delete position
+      parameters:
+        - $ref: '#/components/parameters/IdPathParam'
+      responses:
+        '204':
+          description: No Content
+
+  /api/portfolios/{portfolioId}/transactions:
+    post:
+      tags: [Transactions]
+      summary: Create transaction
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdPathParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTransactionRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+    get:
+      tags: [Transactions]
+      summary: List transactions
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdPathParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+
+  /api/portfolios/{portfolioId}/tax/report:
+    get:
+      tags: [Tax]
+      summary: Annual tax report
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdPathParam'
+        - name: year
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Tax report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaxReport'
+
+  /api/portfolios/{portfolioId}/tax/unrealized-gains:
+    get:
+      tags: [Tax]
+      summary: List unrealized gains
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdPathParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UnrealizedGain'
+
+  /api/portfolios/{portfolioId}/tax/harvesting-opportunities:
+    get:
+      tags: [Tax]
+      summary: List tax harvesting opportunities
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdPathParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaxHarvestingOpportunity'
+
+  /api/portfolios/{portfolioId}/tax/dividends:
+    post:
+      tags: [Tax]
+      summary: Create dividend
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdPathParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDividendRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dividend'
+
+  /api/portfolios/{portfolioId}/tax/lots:
+    get:
+      tags: [Tax]
+      summary: List tax lots (currently empty)
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdPathParam'
+      responses:
+        '200':
+          description: Empty for current implementation
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+                example: []
+
+  /api/portfolios/{portfolioId}/snapshots:
+    post:
+      tags: [Analytics]
+      summary: Create snapshot
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdPathParam'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSnapshotRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioSnapshot'
+    get:
+      tags: [Analytics]
+      summary: List snapshots
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdPathParam'
+        - $ref: '#/components/parameters/FromQueryParam'
+        - $ref: '#/components/parameters/ToQueryParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PortfolioSnapshot'
+
+  /api/portfolios/{portfolioId}/performance:
+    get:
+      tags: [Analytics]
+      summary: Get performance metrics
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdPathParam'
+        - $ref: '#/components/parameters/FromQueryParam'
+        - $ref: '#/components/parameters/ToQueryParam'
+      responses:
+        '200':
+          description: Metrics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PerformanceMetrics'
+
+  /api/portfolios/{portfolioId}/vs-benchmark:
+    get:
+      tags: [Analytics]
+      summary: Compare portfolio with benchmark
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdPathParam'
+        - name: benchmark
+          in: query
+          required: false
+          schema:
+            type: string
+            default: SPY
+        - $ref: '#/components/parameters/FromQueryParam'
+        - $ref: '#/components/parameters/ToQueryParam'
+      responses:
+        '200':
+          description: Comparison
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenchmarkComparison'
+
+  /api/portfolios/{portfolioId}/prices/update:
+    post:
+      tags: [Market Data]
+      summary: Refresh prices for all positions in portfolio
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdPathParam'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceUpdateResponse'
+
+  /api/market-data/price/{symbol}:
+    get:
+      tags: [Market Data]
+      summary: Get current price for symbol
+      parameters:
+        - name: symbol
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [crypto, stock, etf, index]
+      responses:
+        '200':
+          description: Price data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceData'
+
+  /api/market-data/history/{symbol}:
+    get:
+      tags: [Market Data]
+      summary: Get historical prices for symbol
+      parameters:
+        - name: symbol
+          in: path
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/FromQueryParam'
+        - $ref: '#/components/parameters/ToQueryParam'
+      responses:
+        '200':
+          description: Price history
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PriceHistory'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    IdPathParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    PortfolioIdPathParam:
+      name: portfolioId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    FromQueryParam:
+      name: from
+      in: query
+      required: false
+      description: RFC3339 timestamp
+      schema:
+        type: string
+        format: date-time
+    ToQueryParam:
+      name: to
+      in: query
+      required: false
+      description: RFC3339 timestamp
+      schema:
+        type: string
+        format: date-time
+
+  responses:
+    ErrorJsonOrText:
+      description: JSON error object or plain text error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+        text/plain:
+          schema:
+            type: string
+
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
+
+    RegisterRequest:
+      type: object
+      properties:
+        email: { type: string, format: email }
+        password: { type: string, minLength: 8 }
+        name: { type: string }
+      required: [email, password, name]
+
+    LoginRequest:
+      type: object
+      properties:
+        email: { type: string, format: email }
+        password: { type: string }
+      required: [email, password]
+
+    AuthResponse:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/UserResponse'
+        token:
+          type: string
+      required: [user, token]
+
+    UserResponse:
+      type: object
+      properties:
+        id: { type: integer, format: int64 }
+        email: { type: string, format: email }
+        name: { type: string }
+        created_at: { type: string, format: date-time }
+      required: [id, email, name, created_at]
+
+    Portfolio:
+      type: object
+      properties:
+        id: { type: integer, format: int64 }
+        user_id: { type: integer, format: int64 }
+        name: { type: string }
+        base_currency: { type: string }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+      required: [id, user_id, name, base_currency, created_at, updated_at]
+
+    CreatePortfolioRequest:
+      type: object
+      properties:
+        name: { type: string }
+        base_currency:
+          type: string
+          default: EUR
+      required: [name]
+
+    UpdatePortfolioRequest:
+      type: object
+      properties:
+        name: { type: string }
+        base_currency: { type: string }
+
+    Position:
+      type: object
+      properties:
+        id: { type: integer, format: int64 }
+        portfolio_id: { type: integer, format: int64 }
+        name: { type: string }
+        ticker: { type: string }
+        asset_type: { type: string }
+        shares: { type: number }
+        average_cost: { type: number }
+        current_price: { type: number }
+        currency: { type: string }
+        last_price_update: { type: string, format: date-time }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+      required: [id, portfolio_id, name, ticker, asset_type, shares, average_cost, current_price, currency, created_at, updated_at]
+
+    PositionWithMetrics:
+      allOf:
+        - $ref: '#/components/schemas/Position'
+        - type: object
+          properties:
+            total_cost: { type: number }
+            total_value: { type: number }
+            gain: { type: number }
+            gain_percent: { type: number }
+            daily_change: { type: number }
+            daily_change_percent: { type: number }
+
+    CreatePositionRequest:
+      type: object
+      properties:
+        name: { type: string }
+        ticker: { type: string }
+        asset_type: { type: string }
+        shares: { type: number }
+        average_cost: { type: number }
+        current_price: { type: number }
+        currency: { type: string }
+      required: [name, ticker, asset_type, shares, average_cost, current_price, currency]
+
+    UpdatePositionRequest:
+      type: object
+      properties:
+        shares: { type: number }
+        average_cost: { type: number }
+        current_price: { type: number }
+
+    Transaction:
+      type: object
+      properties:
+        id: { type: integer, format: int64 }
+        portfolio_id: { type: integer, format: int64 }
+        position_id: { type: integer, format: int64, nullable: true }
+        name: { type: string }
+        ticker: { type: string }
+        trade_type: { type: string, enum: [buy, sell] }
+        quantity: { type: number }
+        price: { type: number }
+        commission: { type: number }
+        total: { type: number }
+        currency: { type: string }
+        trade_date: { type: string, format: date-time }
+        asset_type: { type: string }
+        notes: { type: string }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+
+    CreateTransactionRequest:
+      type: object
+      properties:
+        position_id: { type: integer, format: int64 }
+        name: { type: string }
+        ticker: { type: string }
+        trade_type: { type: string, enum: [buy, sell] }
+        quantity: { type: number }
+        price: { type: number }
+        commission: { type: number }
+        currency: { type: string }
+        trade_date: { type: string, format: date-time }
+        asset_type: { type: string }
+        notes: { type: string }
+      required: [name, ticker, trade_type, quantity, price, currency, trade_date, asset_type]
+
+    PortfolioSummary:
+      type: object
+      properties:
+        portfolio_id: { type: integer, format: int64 }
+        total_cost: { type: number }
+        total_value: { type: number }
+        total_gain: { type: number }
+        total_gain_percent: { type: number }
+        by_asset_type:
+          type: object
+          additionalProperties:
+            type: number
+        base_currency: { type: string }
+        last_updated: { type: string, format: date-time }
+
+    TaxReport:
+      type: object
+      properties:
+        portfolio_id: { type: integer, format: int64 }
+        year: { type: integer }
+        start_date: { type: string, format: date-time }
+        end_date: { type: string, format: date-time }
+        realized_gains:
+          type: array
+          items: { type: object, additionalProperties: true }
+        dividends:
+          type: array
+          items: { type: object, additionalProperties: true }
+        totals:
+          type: object
+          additionalProperties: true
+        by_asset_type:
+          type: object
+          additionalProperties: true
+        currency: { type: string }
+        generated_at: { type: string, format: date-time }
+
+    UnrealizedGain:
+      type: object
+      properties:
+        position_id: { type: integer, format: int64 }
+        ticker: { type: string }
+        shares: { type: number }
+        average_cost: { type: number }
+        current_price: { type: number }
+        total_cost: { type: number }
+        current_value: { type: number }
+        unrealized_gain: { type: number }
+        gain_percent: { type: number }
+        purchase_date: { type: string, format: date-time }
+        holding_period: { type: string }
+        currency: { type: string }
+        asset_type: { type: string }
+
+    TaxHarvestingOpportunity:
+      type: object
+      properties:
+        position_id: { type: integer, format: int64 }
+        ticker: { type: string }
+        unrealized_loss: { type: number }
+        shares: { type: number }
+        cost_basis: { type: number }
+        current_price: { type: number }
+        recommendation: { type: string }
+
+    Dividend:
+      type: object
+      properties:
+        id: { type: integer, format: int64 }
+        portfolio_id: { type: integer, format: int64 }
+        position_id: { type: integer, format: int64 }
+        ticker: { type: string }
+        amount: { type: number }
+        currency: { type: string }
+        per_share: { type: number }
+        shares: { type: number }
+        payment_date: { type: string, format: date-time }
+        ex_date: { type: string, format: date-time }
+        is_qualified: { type: boolean }
+        tax_withheld: { type: number }
+        notes: { type: string }
+        created_at: { type: string, format: date-time }
+
+    CreateDividendRequest:
+      type: object
+      properties:
+        position_id: { type: integer, format: int64 }
+        ticker: { type: string }
+        amount: { type: number }
+        currency: { type: string }
+        per_share: { type: number }
+        shares: { type: number }
+        payment_date: { type: string, format: date-time }
+        ex_date: { type: string, format: date-time }
+        is_qualified: { type: boolean }
+        tax_withheld: { type: number }
+        notes: { type: string }
+      required: [position_id, ticker, amount, currency, payment_date]
+
+    PortfolioSnapshot:
+      type: object
+      properties:
+        id: { type: integer, format: int64 }
+        portfolio_id: { type: integer, format: int64 }
+        total_value: { type: number }
+        total_cost: { type: number }
+        total_gain: { type: number }
+        gain_percent: { type: number }
+        date: { type: string, format: date-time }
+        created_at: { type: string, format: date-time }
+
+    CreateSnapshotRequest:
+      type: object
+      properties:
+        date: { type: string, format: date-time }
+
+    PerformanceMetrics:
+      type: object
+      properties:
+        portfolio_id: { type: integer, format: int64 }
+        total_return: { type: number }
+        annualized_return: { type: number }
+        volatility: { type: number }
+        sharpe_ratio: { type: number }
+        max_drawdown: { type: number }
+        max_drawdown_percent: { type: number }
+        daily_return: { type: number }
+        monthly_return: { type: number }
+        year_to_date_return: { type: number }
+        start_date: { type: string, format: date-time }
+        end_date: { type: string, format: date-time }
+        days_tracked: { type: integer }
+
+    BenchmarkComparison:
+      type: object
+      properties:
+        portfolio_id: { type: integer, format: int64 }
+        benchmark_symbol: { type: string }
+        benchmark_name: { type: string }
+        portfolio_return: { type: number }
+        benchmark_return: { type: number }
+        alpha: { type: number }
+        beta: { type: number }
+        portfolio_volatility: { type: number }
+        benchmark_volatility: { type: number }
+        portfolio_sharpe_ratio: { type: number }
+        benchmark_sharpe_ratio: { type: number }
+        correlation: { type: number }
+        tracking_error: { type: number }
+        information_ratio: { type: number }
+        start_date: { type: string, format: date-time }
+        end_date: { type: string, format: date-time }
+
+    PriceData:
+      type: object
+      properties:
+        symbol: { type: string }
+        price: { type: number }
+        currency: { type: string }
+        change: { type: number }
+        change_percent: { type: number }
+        volume: { type: number }
+        market_cap: { type: number }
+        last_update: { type: string, format: date-time }
+        source: { type: string }
+        market_open: { type: boolean }
+        previous_close: { type: number }
+
+    PriceHistory:
+      type: object
+      properties:
+        id: { type: integer, format: int64 }
+        symbol: { type: string }
+        price: { type: number }
+        currency: { type: string }
+        volume: { type: number }
+        timestamp: { type: string, format: date-time }
+        source: { type: string }
+        created_at: { type: string, format: date-time }
+
+    PriceUpdateResponse:
+      type: object
+      properties:
+        updated:
+          type: array
+          items: { type: string }
+        failed:
+          type: array
+          items: { type: string }
+        cached:
+          type: array
+          items: { type: string }
+        prices:
+          type: object
+          additionalProperties:
+            type: number
+        timestamp: { type: string, format: date-time }
+
+security:
+  - bearerAuth: []

@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/app/hooks/api/useAuth";
 
 type LinkItem = {
     label: string;
@@ -23,30 +27,36 @@ const navItems: NavItem[] = [
         label: "Investments",
         defaultOpen: false,
         children: [
-            { label: "All", href: "/mainApp?view=all-portfolios" },
-            { label: "Create +", href: "/mainApp?view=create-portfolio" },
-            
+            { label: "Positions", href: "/mainApp/positions" },
+            { label: "Transactions", href: "/mainApp/transactions" },
         ],
     },
-    { label: "Analytics", defaultOpen: false, 
+    { label: "Analytics", defaultOpen: false,
         children: [
-            { label: "Performance", href: "/mainApp?view=analytics-performance" },
-            { label: "Benchmarks", href: "/mainApp?view=analytics-benchmarks" },
+            { label: "Performance", href: "/mainApp/analytics/performance" },
+            { label: "Benchmarks", href: "/mainApp/analytics/benchmarks" },
+            { label: "Historic Returns", href: "/mainApp/returns" },
         ]
     },
     {
         label: "Taxes",
         children: [
-            { label: "Report", href: "/mainApp?view=tax-report" },
-            { label: "Gains", href: "/mainApp?view=tax-gains" },
-            { label: "Harvest", href: "/mainApp?view=tax-harvest" },
+            { label: "Report", href: "/mainApp/tax" },
         ],
     }
 ];
 
 export default function NavBar() {
+    const router = useRouter();
+    const { logout } = useAuth();
+
+    function handleLogout() {
+        logout();
+        router.push("/auth/login");
+    }
+
     return (
-        <div className="flex-1  h-full max-w-[18rem] rounded-4xl bg-[#07070e] justify-between flex-col hidden sm:flex backdrop-blur-sm border border-[#16162a]">
+        <div className="flex-1  h-full max-w-[18rem] rounded-4xl bg-[#07070e] justify-between flex-col hidden sm:flex backdrop-blur-sm ">
             <nav className="m-10 flex flex-col">
                 <h1 className="text-3xl font-black">Overview</h1>
                 <ul className="mt-4 flex flex-col gap-2">
@@ -95,27 +105,36 @@ export default function NavBar() {
                 <ul className="m-10 mt-auto flex flex-col gap-2">
                     <li>
                         <Link
-                            href="/mainApp?view=settings"
+                            href="/mainApp/portfolio"
                             className="text-lg font-medium text-gray-300 hover:text-gray-100"
                         >
-                            Settings
+                            Portfolio
                         </Link>
                     </li>
                     <li>
                         <Link
-                            href="/mainApp?view=profile"
+                            href="/mainApp/profile"
                             className="text-lg font-medium text-gray-300 hover:text-gray-100"
                         >
                             Profile
                         </Link>
                     </li>
                     <li>
-                        <Link 
-                            href="/mainApp?view=logout"
+                        <Link
+                            href="/mainApp/settings"
+                            className="text-lg font-medium text-gray-300 hover:text-gray-100"
+                        >
+                            Settings
+                        </Link>
+                    </li>
+                    <li>
+                        <button
+                            type="button"
+                            onClick={handleLogout}
                             className="text-lg font-medium text-gray-300 hover:text-gray-100"
                         >
                             Logout
-                        </Link>
+                        </button>
                     </li>
                 </ul>
 

@@ -1,11 +1,46 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Sora } from "next/font/google";
+import localFont from "next/font/local";
+import { Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Providers from "@/app/providers";
 
-const sora = Sora({
-  variable: "--font-sora",
-  weight: ["300", "400", "500", "600", "700"],
-  subsets: ["latin"],
+const alpino = localFont({
+  src: [
+    {
+      path: "../public/fonts/alpino/Alpino-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/alpino/Alpino-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/alpino/Alpino-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/alpino/Alpino-Black.woff2",
+      weight: "900",
+      style: "normal",
+    },
+  ],
+  variable: "--font-alpino",
+  display: "swap",
+});
+
+const sentient = localFont({
+  src: [
+    {
+      path: "../public/fonts/sentient/Sentient-Italic.woff2",
+      weight: "400",
+      style: "italic",
+    },
+  ],
+  variable: "--font-sentient",
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
@@ -26,9 +61,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${sora.variable} ${geistMono.variable} antialiased`}
+        className={`${alpino.variable} ${sentient.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
