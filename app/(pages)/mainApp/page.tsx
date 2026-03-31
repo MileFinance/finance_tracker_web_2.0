@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import Dashboard from "../dashboard/page";
+import dynamic from "next/dynamic";
 import PositionsView from "@/app/components/mainApp/positions/positionsView";
 import TransactionsView from "@/app/components/mainApp/transactions/transactionsView";
 import AnalyticsView from "@/app/components/mainApp/analytics/analyticsView";
@@ -9,6 +9,10 @@ import BenchmarksView from "@/app/components/mainApp/benchmarks/benchmarksView";
 import TaxView from "@/app/components/mainApp/tax/taxView";
 import HistoricReturnsView from "@/app/components/mainApp/returns/historicReturnsView";
 import SettingsView from "@/app/components/mainApp/settings/settingsView";
+
+const Dashboard = dynamic(() => import("../dashboard/page"), {
+  ssr: false,
+});
 
 function renderView(view: string) {
   switch (view) {

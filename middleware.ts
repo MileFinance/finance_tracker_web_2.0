@@ -13,7 +13,10 @@ function createNonce(): string {
 }
 
 function buildCsp(nonce: string): string {
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080";
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
+  if (!apiBaseUrl) {
+    throw new Error("Missing required env var NEXT_PUBLIC_API_BASE_URL");
+  }
   const apiOrigin = new URL(apiBaseUrl).origin;
 
   const connectSrc = ["'self'", apiOrigin, "https:"];

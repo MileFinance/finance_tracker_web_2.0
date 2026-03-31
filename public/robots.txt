@@ -1,0 +1,45 @@
+# robots.txt for Mile Finance Tracker
+# Allows search engines to crawl public-facing content
+
+# Default rules for all crawlers
+User-agent: *
+Allow: /
+Disallow: /auth/
+Disallow: /(pages)/mainApp/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /.next/
+Disallow: /admin/
+Disallow: /*?*sort=
+Disallow: /*?*filter=
+
+# Allow specific legal pages for SEO
+Allow: /legal/privacy
+Allow: /legal/terms
+Allow: /legal/security
+
+# Crawl delay for respectful scraping (in seconds)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://yourdomain.com/sitemap.xml
+
+# Google specific
+User-agent: Googlebot
+Allow: /
+Disallow: /auth/
+Disallow: /(pages)/mainApp/
+Disallow: /api/
+
+# Bing specific
+User-agent: Bingbot
+Allow: /
+Disallow: /auth/
+Disallow: /(pages)/mainApp/
+Disallow: /api/
+
+# Block bad crawlers
+User-agent: AhrefsBot
+User-agent: SemrushBot
+User-agent: DotBot
+Disallow: /

@@ -94,14 +94,13 @@ export default function AppShowcase() {
           })}
         </div>
 
-        <div className="mt-8 flex justify-center">
-          <Link
-            href="/auth/register"
-            className="rounded-full border border-[#FFB95D]/40 bg-[#FFB95D]/12 px-5 py-2.5 text-xs font-semibold text-[#FFB95D] transition hover:bg-[#FFB95D]/20"
-          >
-            Start building your portfolio workspace
+
+          <Link href="/auth/login" className="relative w-full flex justify-center py-1 mt-40">
+            <span className="absolute bottom-8 z-20 rounded-full border-4 border-white/50 p-5 transition-colors hover:border-[#FFB95D] hover:text-[#FFB95D]">
+              <p className="text-lg text-white/80 font-black">Get Started</p>
+            </span>
           </Link>
-        </div>
+
       </div>
     </section>
   );

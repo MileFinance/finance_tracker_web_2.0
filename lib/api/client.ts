@@ -49,7 +49,13 @@ type RequestOptions = {
   query?: Record<string, string | number | boolean | undefined>;
 };
 
-const DEFAULT_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080";
+const envApiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
+
+if (!envApiBaseUrl) {
+  throw new Error("Missing required env var NEXT_PUBLIC_API_BASE_URL");
+}
+
+const DEFAULT_BASE_URL = envApiBaseUrl;
 
 function buildGoogleAuthUrl(mode: "login" | "register"): string {
   const configuredUrl = process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL?.trim();

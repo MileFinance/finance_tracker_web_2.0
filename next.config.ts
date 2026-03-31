@@ -2,12 +2,34 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+
+  // Enable React strict mode for development
+  reactStrictMode: true,
+
+  // Optimize images
+  images: {
+    formats: ["image/avif", "image/webp"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
+  },
+
+  // Turbopack configuration (Next.js 16 uses Turbopack by default)
+  turbopack: {},
+
+  // Security and SEO headers
   async headers() {
     return [
       {
         source: "/(.*)",
         headers: [
-          { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains; preload" },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=31536000; includeSubDomains; preload",
+          },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-DNS-Prefetch-Control", value: "off" },
@@ -22,6 +44,34 @@ const nextConfig: NextConfig = {
               "camera=(), microphone=(), geolocation=(), payment=(), usb=(), gyroscope=(), accelerometer=(), magnetometer=()",
           },
         ],
+      },
+    ];
+  },
+
+  // Sitemap and robots.txt routing
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: "/sitemap.xml",
+          destination: "/api/sitemap",
+        },
+        {
+          source: "/robots.txt",
+          destination: "/api/robots",
+        },
+      ],
+    };
+  },
+
+  // Redirects for SEO
+  async redirects() {
+    return [
+      // Remove trailing slashes
+      {
+        source: "/:path+/",
+        destination: "/:path+",
+        permanent: true,
       },
     ];
   },

@@ -16,6 +16,19 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Environment variables
+
+Set these in `.env.local` before running the app:
+
+```bash
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8080
+NEXT_PUBLIC_GOOGLE_AUTH_URL=http://localhost:8080/api/auth/google
+NEXT_PUBLIC_DEV_DEFAULT_ROUTE=/dashboard
+```
+
+- `NEXT_PUBLIC_API_BASE_URL` is required.
+- `NEXT_PUBLIC_GOOGLE_AUTH_URL` is optional. If omitted, the app builds it from `NEXT_PUBLIC_API_BASE_URL`.
+
 ## Set a default page for development
 
 If you want `http://localhost:3000` to open a specific route while developing,
