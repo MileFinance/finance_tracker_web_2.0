@@ -29,6 +29,7 @@ const alpino = localFont({
   ],
   variable: "--font-alpino",
   display: "swap",
+  preload: true,
 });
 
 const sentient = localFont({
@@ -41,6 +42,7 @@ const sentient = localFont({
   ],
   variable: "--font-sentient",
   display: "swap",
+  preload: true,
 });
 
 const geistMono = Geist_Mono({

@@ -1,0 +1,78 @@
+{
+  "name": "Shiru - Investment Portfolio Tracker",
+  "short_name": "Shiru",
+  "description": "Track and manage your investment portfolios with advanced analytics and performance metrics.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#FFB95D",
+  "background_color": "#000000",
+  "icons": [
+    {
+      "src": "/logo/LogoMileWhite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo/Logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/Logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["finance", "productivity"],
+  "screenshots": [
+    {
+      "src": "/logo/Logo.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "View your portfolio dashboard",
+      "url": "/mainApp?view=dashboard",
+      "icons": [
+        {
+          "src": "/logo/LogoMileWhite.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "short_name": "Analytics",
+      "description": "View portfolio analytics",
+      "url": "/mainApp/analytics/performance",
+      "icons": [
+        {
+          "src": "/logo/LogoMileWhite.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
+}

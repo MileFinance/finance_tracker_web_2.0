@@ -55,10 +55,15 @@ export default function AppShowcase() {
     <section className="w-full px-6 py-20 pb-0 sm:px-8 lg:px-12" id="showcase">
       <div className="mx-auto w-full max-w-7xl">
         <div className="mx-auto mb-10 max-w-3xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#FFB95D]">Inside Shiru</p>
-          <h2 className="mt-2 text-3xl font-black text-white sm:text-4xl">A cleaner look at how Shiru works</h2>
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#FFB95D]">
+            Inside Shiru
+          </p>
+          <h2 className="mt-2 text-3xl font-black text-white sm:text-4xl">
+            A cleaner look at how Shiru works
+          </h2>
           <p className="mt-3 text-sm text-white/70 sm:text-base">
-            A quick product walkthrough with real screens and concise explanations.
+            A quick product walkthrough with real screens and concise
+            explanations.
           </p>
         </div>
 
@@ -66,25 +71,52 @@ export default function AppShowcase() {
           {showcaseItems.map((item, index) => {
             const reverse = index % 2 === 1;
             return (
-              <article key={item.title} className="grid gap-4 lg:grid-cols-12 lg:items-center">
-                <div className={reverse ? "order-2 lg:order-2 lg:col-span-5" : "order-2 lg:order-1 lg:col-span-5"}>
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#FFB95D]/90">{item.eyebrow}</p>
-                  <h3 className="mt-2 text-2xl font-black leading-tight text-white sm:text-3xl">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-white/78 sm:text-base">{item.description}</p>
+              <article
+                key={item.title}
+                className="grid gap-4 lg:grid-cols-12 lg:items-center"
+              >
+                <div
+                  className={
+                    reverse
+                      ? "order-2 lg:order-2 lg:col-span-5"
+                      : "order-2 lg:order-1 lg:col-span-5"
+                  }
+                >
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#FFB95D]/90">
+                    {item.eyebrow}
+                  </p>
+                  <h3 className="mt-2 text-2xl font-black leading-tight text-white sm:text-3xl">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-white/78 sm:text-base">
+                    {item.description}
+                  </p>
 
                   <div className="mt-4 inline-flex items-end gap-2 border-b border-[#FFB95D]/25 pb-1.5">
-                    <span className="text-2xl font-black text-[#FFB95D] sm:text-3xl">{item.metricValue}</span>
-                    <span className="pb-1 text-[10px] uppercase tracking-[0.14em] text-white/55 sm:text-xs">{item.metricLabel}</span>
+                    <span className="text-2xl font-black text-[#FFB95D] sm:text-3xl">
+                      {item.metricValue}
+                    </span>
+                    <span className="pb-1 text-[10px] uppercase tracking-[0.14em] text-white/55 sm:text-xs">
+                      {item.metricLabel}
+                    </span>
                   </div>
                 </div>
 
-                <div className={reverse ? "order-1 lg:order-1 lg:col-span-7" : "order-1 lg:order-2 lg:col-span-7"}>
+                <div
+                  className={
+                    reverse
+                      ? "order-1 lg:order-1 lg:col-span-7"
+                      : "order-1 lg:order-2 lg:col-span-7"
+                  }
+                >
                   <div className="mx-auto w-full max-w-180 overflow-hidden">
                     <Image
                       src={item.imageSrc}
                       alt={item.imageAlt}
                       width={1600}
                       height={980}
+                      loading="lazy"
+                      sizes="(max-width: 1024px) 100vw, 58vw"
                       className={`h-auto w-full rounded-2xl object-contain ${item.imageClassName}`}
                     />
                   </div>
@@ -94,13 +126,14 @@ export default function AppShowcase() {
           })}
         </div>
 
-
-          <Link href="/auth/login" className="relative w-full flex justify-center py-1 mt-40">
-            <span className="absolute bottom-8 z-20 rounded-full border-4 border-white/50 p-5 transition-colors hover:border-[#FFB95D] hover:text-[#FFB95D]">
-              <p className="text-lg text-white/80 font-black">Get Started</p>
-            </span>
-          </Link>
-
+        <Link
+          href="/auth/login"
+          className="relative w-full flex justify-center py-1 mt-40"
+        >
+          <span className="absolute bottom-8 z-20 rounded-full border-4 border-white/50 p-5 transition-colors hover:border-[#FFB95D] hover:text-[#FFB95D]">
+            <p className="text-lg text-white/80 font-black">Get Started</p>
+          </span>
+        </Link>
       </div>
     </section>
   );

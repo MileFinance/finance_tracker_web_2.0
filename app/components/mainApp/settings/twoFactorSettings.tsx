@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import { apiClient } from "@/lib/api/client";
 import type { TwoFactorSetupResponse } from "@/lib/api/types";
 
@@ -191,7 +192,19 @@ export default function TwoFactorSettings({ token }: TwoFactorSettingsProps) {
           {setupData ? (
             <div className="space-y-3 rounded-xl border border-[#334155] bg-black p-4">
               <p className="text-sm text-neutral-300">1) Scan this QR code with your authenticator app.</p>
-              <img src={qrImageUrl} alt="2FA setup QR" className="h-55 w-55 rounded-lg border border-[#334155] bg-black" />
+              <div className="h-55 w-55 rounded-lg border border-[#334155] bg-black overflow-hidden flex items-center justify-center">
+                {qrImageUrl && (
+                  <Image
+                    src={qrImageUrl}
+                    alt="2FA setup QR"
+                    width={220}
+                    height={220}
+                    className="rounded-lg"
+                    style={{ objectFit: "contain" }}
+                    priority
+                  />
+                )}
+              </div>
 
               <div>
                 <p className="text-sm text-neutral-300">2) If QR is unavailable, enter this secret manually:</p>
