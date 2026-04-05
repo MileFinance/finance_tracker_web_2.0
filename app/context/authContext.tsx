@@ -68,8 +68,8 @@ type AuthContextValue = {
   authError: string | null;
   login: (payload: LoginRequest) => Promise<void>;
   register: (payload: RegisterRequest) => Promise<void>;
-  loginWithGoogle: () => Promise<void>;
-  registerWithGoogle: () => Promise<void>;
+  loginWithGoogle: (idToken: string) => Promise<void>;
+  registerWithGoogle: (idToken: string) => Promise<void>;
   logout: () => void;
   clearAuthError: () => void;
 };
@@ -189,13 +189,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [applyAuthResponse],
   );
 
-  const loginWithGoogle = useCallback(async () => {
-    window.location.href = apiClient.getGoogleAuthUrl("login");
-  }, []);
+  const handleGoogleAuth = useCallback(
+    async (idToken: string) => {
+      setAuthError(null);
+      try {
+        const auth = await apiClient.googleAuth(idToken);
+        applyAuthResponse(auth);
+      } catch (error) {
+        const message =
+          typeof error === "object" && error && "message" in error
+            ? String((error as { message: string }).message)
+            : "Google Sign-In failed. Please try again.";
+        setAuthError(message);
+        throw error;
+      }
+    },
+    [applyAuthResponse],
+  );
 
-  const registerWithGoogle = useCallback(async () => {
-    window.location.href = apiClient.getGoogleAuthUrl("register");
-  }, []);
+  const loginWithGoogle = handleGoogleAuth;
+  const registerWithGoogle = handleGoogleAuth;
 
   const value = useMemo<AuthContextValue>(
     () => ({

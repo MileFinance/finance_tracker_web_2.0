@@ -5,6 +5,7 @@ import { FormEvent, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/hooks/api/useAuth";
 import Image from "next/image";
+import { GoogleLogin } from "@react-oauth/google";
 
 function GoogleIcon() {
   return (
@@ -124,20 +125,25 @@ export default function RegisterView() {
               </p>
             </div>
 
-            <button
-              type="button"
-              onClick={async () => {
-                try {
-                  await registerWithGoogle();
-                } catch (error) {
-                  console.error("Google sign-up failed:", error);
-                }
-              }}
-              className="flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/6 text-sm font-semibold text-white transition hover:border-[#FFB95D]/50 hover:bg-[#FFB95D]/10"
-            >
-              <GoogleIcon />
-              Sign up with Google
-            </button>
+            <div className="flex w-full justify-center">
+              <GoogleLogin
+                onSuccess={async (credentialResponse) => {
+                  if (credentialResponse.credential) {
+                    try {
+                      await registerWithGoogle(credentialResponse.credential);
+                    } catch (error) {
+                      console.error("Google sign-in failed:", error);
+                    }
+                  }
+                }}
+                onError={() => {
+                  console.error("Google Login Failed");
+                }}
+                theme="filled_black"
+                shape="rectangular"
+                text="continue_with"
+              />
+            </div>
 
             <div className="my-5 flex items-center gap-3">
               <span className="h-px flex-1 bg-white/15" />

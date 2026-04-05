@@ -5,29 +5,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/hooks/api/useAuth";
 import Image from "next/image";
-
-function GoogleIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4">
-      <path
-        d="M23.5 12.27c0-.82-.07-1.61-.22-2.36H12v4.48h6.44a5.5 5.5 0 0 1-2.39 3.62v3h3.87c2.26-2.08 3.58-5.16 3.58-8.74z"
-        fill="#4285F4"
-      />
-      <path
-        d="M12 24c3.24 0 5.96-1.08 7.95-2.92l-3.87-3c-1.08.72-2.46 1.14-4.08 1.14-3.14 0-5.8-2.12-6.75-4.96H1.25v3.1A12 12 0 0 0 12 24z"
-        fill="#34A853"
-      />
-      <path
-        d="M5.25 14.26A7.2 7.2 0 0 1 4.88 12c0-.78.14-1.53.37-2.26v-3.1H1.25A12 12 0 0 0 0 12c0 1.94.46 3.77 1.25 5.36l4-3.1z"
-        fill="#FBBC05"
-      />
-      <path
-        d="M12 4.77c1.76 0 3.34.6 4.59 1.76l3.44-3.44C17.95 1.12 15.23 0 12 0A12 12 0 0 0 1.25 6.64l4 3.1c.95-2.84 3.61-4.97 6.75-4.97z"
-        fill="#EA4335"
-      />
-    </svg>
-  );
-}
+import { GoogleLogin } from "@react-oauth/google";
 
 export default function LoginView() {
   const router = useRouter();
@@ -132,20 +110,25 @@ export default function LoginView() {
 
             {!needsTwoFactor ? (
               <>
-                <button
-                  type="button"
-                  onClick={async () => {
-                    try {
-                      await loginWithGoogle();
-                    } catch (error) {
-                      console.error("Google sign-in failed:", error);
-                    }
-                  }}
-                  className="flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/6 text-sm font-semibold text-white transition hover:border-[#FFB95D]/50 hover:bg-[#FFB95D]/10"
-                >
-                  <GoogleIcon />
-                  Continue with Google
-                </button>
+                <div className="flex w-full justify-center">
+                  <GoogleLogin
+                    onSuccess={async (credentialResponse) => {
+                      if (credentialResponse.credential) {
+                        try {
+                          await loginWithGoogle(credentialResponse.credential);
+                        } catch (error) {
+                          console.error("Google sign-in failed:", error);
+                        }
+                      }
+                    }}
+                    onError={() => {
+                      console.error("Google Login Failed");
+                    }}
+                    theme="filled_black"
+                    shape="rectangular"
+                    text="continue_with"
+                  />
+                </div>
 
                 <div className="my-5 flex items-center gap-3">
                   <span className="h-px flex-1 bg-white/15" />
