@@ -214,6 +214,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // (This will pop up the standard Google slide-in instead of a redirect)
       window.google.accounts.id.prompt();
     } catch (error) {
+      console.error("Google Auth Error:", error);
       setAuthError("Unable to initialize Google Sign-In.");
     }
   }, [applyAuthResponse]);
