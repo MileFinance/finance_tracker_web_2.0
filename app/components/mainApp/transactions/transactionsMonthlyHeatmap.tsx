@@ -39,7 +39,7 @@ export default function TransactionsMonthlyHeatmap({ rows }: TransactionsMonthly
   const max = Math.max(...totals, 0);
 
   return (
-    <section className="rounded-2xl border border-[#334155] bg-black p-5">
+    <section className="rounded-md bg-transparent border border-surface p-5">
       <header className="mb-4 flex items-end justify-between gap-3">
         <div>
           <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Activity heatmap</p>
@@ -57,7 +57,7 @@ export default function TransactionsMonthlyHeatmap({ rows }: TransactionsMonthly
           return (
             <article
               key={month}
-              className="min-h-20 rounded-xl border border-[#334155] p-3"
+              className="min-h-20 rounded-sm p-3"
               style={{ backgroundColor: `rgba(20, 184, 166, ${bgOpacity})` }}
             >
               <p className="text-xs uppercase tracking-[0.08em] text-neutral-300">{month}</p>

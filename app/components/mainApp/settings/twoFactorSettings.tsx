@@ -152,7 +152,7 @@ export default function TwoFactorSettings({ token }: TwoFactorSettingsProps) {
   }
 
   return (
-    <section className="rounded-2xl border border-[#334155] bg-black p-5">
+    <section className="rounded-md bg-transparent border border-surface p-5">
       <header className="mb-4">
         <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Security</p>
         <h2 className="text-xl font-semibold text-white sm:text-2xl">Two-Factor Authentication</h2>
@@ -167,13 +167,13 @@ export default function TwoFactorSettings({ token }: TwoFactorSettingsProps) {
       </p>
 
       {error ? (
-        <p className="mb-3 rounded-xl border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-300">
+        <p className="mb-3 rounded-sm border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-300">
           {error}
         </p>
       ) : null}
 
       {message ? (
-        <p className="mb-3 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-300">
+        <p className="mb-3 rounded-sm border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-300">
           {message}
         </p>
       ) : null}
@@ -184,22 +184,22 @@ export default function TwoFactorSettings({ token }: TwoFactorSettingsProps) {
             type="button"
             onClick={handleSetup}
             disabled={!token || submitting}
-            className="rounded-xl border border-[#334155] bg-black px-4 py-2 text-sm font-semibold text-white transition hover:border-[#FFB95D]/50 disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-sm bg-transparent border border-surface px-4 py-2 text-sm font-semibold text-white transition hover:border-[#FFB95D]/50 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {submitting ? "Preparing..." : "Enable 2FA"}
           </button>
 
           {setupData ? (
-            <div className="space-y-3 rounded-xl border border-[#334155] bg-black p-4">
+            <div className="space-y-3 rounded-sm bg-transparent border border-surface p-4">
               <p className="text-sm text-neutral-300">1) Scan this QR code with your authenticator app.</p>
-              <div className="h-55 w-55 rounded-lg border border-[#334155] bg-black overflow-hidden flex items-center justify-center">
+              <div className="h-55 w-55 rounded-sm bg-transparent border border-surface overflow-hidden flex items-center justify-center">
                 {qrImageUrl && (
                   <Image
                     src={qrImageUrl}
                     alt="2FA setup QR"
                     width={220}
                     height={220}
-                    className="rounded-lg"
+                    className="rounded-sm"
                     style={{ objectFit: "contain" }}
                     priority
                   />
@@ -209,11 +209,11 @@ export default function TwoFactorSettings({ token }: TwoFactorSettingsProps) {
               <div>
                 <p className="text-sm text-neutral-300">2) If QR is unavailable, enter this secret manually:</p>
                 <div className="mt-2 flex flex-wrap items-center gap-2">
-                  <code className="rounded-md border border-[#334155] bg-black px-2 py-1 text-xs text-[#FFB95D]">{setupData.secret}</code>
+                  <code className="rounded-md bg-transparent border border-surface px-2 py-1 text-xs text-[#FFB95D]">{setupData.secret}</code>
                   <button
                     type="button"
                     onClick={handleCopySecret}
-                    className="rounded-md border border-[#334155] px-2 py-1 text-xs font-semibold text-white hover:border-[#FFB95D]/50"
+                    className="rounded-md px-2 py-1 text-xs font-semibold text-white hover:border-[#FFB95D]/50"
                   >
                     Copy
                   </button>
@@ -232,7 +232,7 @@ export default function TwoFactorSettings({ token }: TwoFactorSettingsProps) {
                   value={enableCode}
                   onChange={(event) => setEnableCode(normalizeCodeInput(event.target.value))}
                   placeholder="123456"
-                  className="h-11 w-full max-w-xs rounded-xl border border-[#334155] bg-black px-4 text-white outline-none transition focus:border-[#FFB95D]/60"
+                  className="h-11 w-full max-w-xs rounded-sm bg-transparent border border-surface px-4 text-white outline-none transition focus:border-[#FFB95D]/60"
                 />
               </div>
 
@@ -241,7 +241,7 @@ export default function TwoFactorSettings({ token }: TwoFactorSettingsProps) {
                   type="button"
                   onClick={handleEnable}
                   disabled={submitting || enableCode.length !== 6}
-                  className="rounded-xl border border-[#FFB95D]/40 bg-[#FFB95D]/10 px-4 py-2 text-sm font-semibold text-[#FFB95D] hover:bg-[#FFB95D]/15 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="rounded-sm border border-[#FFB95D]/40 bg-[#FFB95D]/10 px-4 py-2 text-sm font-semibold text-[#FFB95D] hover:bg-[#FFB95D]/15 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {submitting ? "Confirming..." : "Confirm and Enable"}
                 </button>
@@ -251,7 +251,7 @@ export default function TwoFactorSettings({ token }: TwoFactorSettingsProps) {
           ) : null}
         </div>
       ) : (
-        <div className="space-y-3 rounded-xl border border-[#334155] bg-black p-4">
+        <div className="space-y-3 rounded-sm bg-transparent border border-surface p-4">
           <p className="text-sm text-neutral-300">Enter your current 6-digit authenticator code to disable 2FA.</p>
           <input
             id="disable-2fa-code"
@@ -261,7 +261,7 @@ export default function TwoFactorSettings({ token }: TwoFactorSettingsProps) {
             value={disableCode}
             onChange={(event) => setDisableCode(normalizeCodeInput(event.target.value))}
             placeholder="123456"
-            className="h-11 w-full max-w-xs rounded-xl border border-[#334155] bg-black px-4 text-white outline-none transition focus:border-[#FFB95D]/60"
+            className="h-11 w-full max-w-xs rounded-sm bg-transparent border border-surface px-4 text-white outline-none transition focus:border-[#FFB95D]/60"
           />
 
           <div className="flex flex-wrap items-center gap-2">
@@ -269,7 +269,7 @@ export default function TwoFactorSettings({ token }: TwoFactorSettingsProps) {
               type="button"
               onClick={handleDisable}
               disabled={submitting || disableCode.length !== 6}
-              className="rounded-xl border border-rose-500/40 bg-rose-500/10 px-4 py-2 text-sm font-semibold text-rose-300 hover:bg-rose-500/20 disabled:cursor-not-allowed disabled:opacity-60"
+              className="rounded-sm border border-rose-500/40 bg-rose-500/10 px-4 py-2 text-sm font-semibold text-rose-300 hover:bg-rose-500/20 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {submitting ? "Disabling..." : "Disable 2FA"}
             </button>

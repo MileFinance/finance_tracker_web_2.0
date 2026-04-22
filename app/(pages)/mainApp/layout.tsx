@@ -22,7 +22,7 @@ export default function MainAppLayout({
 
     if (!isHydrated || !isAuthenticated) {
       return (
-        <main className="mainapp-shell-black flex h-screen w-full items-center justify-center bg-black p-4 text-neutral-300">
+        <main className="flex h-screen w-full items-center justify-center bg-mainapp text-neutral-300">
           Loading secure workspace...
         </main>
       );
@@ -30,7 +30,7 @@ export default function MainAppLayout({
 
     return (
         <PortfolioProvider>
-          <main className="mainapp-card-soft mainapp-shell-black flex h-screen w-full gap-4 bg-black p-4 sm:p-6">
+          <main className="flex h-screen w-full bg-mainapp">
             <NavBar />
             {children}
           </main>

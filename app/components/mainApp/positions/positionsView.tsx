@@ -91,8 +91,8 @@ function AddPositionModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-      <div className="w-full max-w-md rounded-2xl border border-[#334155] bg-black p-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+      <div className="w-full max-w-md rounded-md bg-mainapp border border-surface p-6">
         <h2 className="mb-5 text-lg font-semibold text-white">Add Position</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           {[
@@ -112,7 +112,7 @@ function AddPositionModal({
                 placeholder={placeholder}
                 min={type === "number" ? "0" : undefined}
                 step={type === "number" ? "any" : undefined}
-                className="rounded-lg border border-[#334155] bg-black px-3 py-2 text-sm text-white placeholder-neutral-600 focus:outline-none focus:ring-1 focus:ring-[#14b8a6]"
+                className="rounded-sm bg-transparent border border-surface px-3 py-2 text-sm text-white placeholder-neutral-600 focus:outline-none focus:ring-1 focus:ring-[#14b8a6]"
               />
             </label>
           ))}
@@ -122,7 +122,7 @@ function AddPositionModal({
             <select
               value={form.asset_type}
               onChange={(e) => setField("asset_type", e.target.value)}
-              className="rounded-lg border border-[#334155] bg-black px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#14b8a6]"
+              className="rounded-sm bg-transparent border border-surface px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#14b8a6]"
             >
               {ASSET_TYPES.map((assetType) => (
                 <option key={assetType} value={assetType}>
@@ -139,14 +139,14 @@ function AddPositionModal({
               type="button"
               onClick={onClose}
               disabled={saving}
-              className="rounded-xl border border-[#334155] px-4 py-2 text-sm text-neutral-400 hover:text-white disabled:opacity-50"
+              className="rounded-sm px-4 py-2 text-sm text-neutral-400 hover:text-white disabled:opacity-50"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving}
-              className="rounded-xl bg-[#14b8a6] px-4 py-2 text-sm font-semibold text-black hover:bg-[#2dd4bf] disabled:opacity-50"
+              className="rounded-sm bg-[#14b8a6] px-4 py-2 text-sm font-semibold text-black hover:bg-[#2dd4bf] disabled:opacity-50"
             >
               {saving ? "Saving..." : "Add Position"}
             </button>
@@ -231,9 +231,9 @@ export default function PositionsView() {
 
   return (
     <>
-      <div className="w-full flex-1 overflow-y-auto rounded-3xl border border-[#334155] bg-black p-3 sm:p-5">
+      <div className="w-full flex-1 overflow-y-auto bg-mainapp p-2 sm:p-3">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-4">
-          <header className="flex flex-col gap-3 rounded-2xl border border-[#334155] bg-black p-4 sm:flex-row sm:items-center sm:justify-between">
+          <header className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Investments</p>
               <h1 className="text-xl font-semibold text-white sm:text-2xl">Positions</h1>
@@ -241,21 +241,21 @@ export default function PositionsView() {
             <button
               type="button"
               onClick={() => setShowAddModal(true)}
-              className="rounded-xl border border-[#14b8a6]/30 bg-[#14b8a6]/10 px-4 py-2 text-sm font-semibold text-[#2dd4bf] hover:bg-[#14b8a6]/20"
+              className="rounded-sm border bg-[#14b8a6]/10 px-4 py-2 text-sm font-semibold text-[#2dd4bf] hover:bg-[#14b8a6]/20"
             >
               Add Position
             </button>
           </header>
 
-          {loading ? <p className="rounded-2xl border border-[#334155] bg-black p-4 text-sm text-neutral-300">Loading positions...</p> : null}
-          {error ? <p className="rounded-2xl border border-rose-500/20 bg-rose-500/10 p-4 text-sm text-rose-300">{error}</p> : null}
+          {loading ? <p className="rounded-md bg-transparent border border-surface p-4 text-sm text-neutral-300">Loading positions...</p> : null}
+          {error ? <p className="rounded-md border border-rose-500/20 bg-rose-500/10 p-4 text-sm text-rose-300">{error}</p> : null}
 
           <PositionsSummary summary={summary} />
 
           <AssetTypeFilter options={[...OPTIONS]} selected={selectedAssetType} onSelect={setSelectedAssetType} />
 
           {!loading && !error && filteredPositions.length === 0 ? (
-            <p className="rounded-2xl border border-[#334155] bg-black p-4 text-sm text-neutral-300">No positions found for this portfolio.</p>
+            <p className="rounded-md bg-transparent border border-surface p-4 text-sm text-neutral-300">No positions found for this portfolio.</p>
           ) : null}
 
           <PositionsList positions={filteredPositions} />

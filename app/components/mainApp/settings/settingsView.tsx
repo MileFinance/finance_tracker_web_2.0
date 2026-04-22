@@ -41,9 +41,9 @@ export default function SettingsView() {
   }
 
   return (
-    <div className="w-full flex-1 overflow-y-auto rounded-3xl border border-[#334155] bg-black p-3 sm:p-5">
+    <div className="w-full flex-1 overflow-y-auto bg-mainapp p-2 sm:p-3">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4">
-        <header className="rounded-2xl border border-[#334155] bg-black p-4">
+        <header className="rounded-md bg-transparent border border-surface p-4">
           <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Settings</p>
           <h1 className="text-xl font-semibold text-white sm:text-2xl">Portfolio Configuration</h1>
         </header>

@@ -42,7 +42,7 @@ export default function MainAppPage() {
   const view = searchParams.get("view") ?? "dashboard";
 
   return (
-    <main className="flex h-screen w-full gap-4 bg-black">
+    <main className="flex h-screen w-full gap-4 bg-mainapp">
       {renderView(view)}
     </main>
   );

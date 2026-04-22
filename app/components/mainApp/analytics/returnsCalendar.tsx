@@ -9,7 +9,7 @@ type ReturnsCalendarProps = {
 
 export default function ReturnsCalendar({ rows }: ReturnsCalendarProps) {
   return (
-    <section className="rounded-2xl border border-[#334155] bg-black p-5">
+    <section className="rounded-md bg-transparent border border-surface p-5">
       <header className="mb-4">
         <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Returns calendar</p>
         <h3 className="text-xl font-semibold text-white sm:text-2xl">Monthly Heatmap</h3>
@@ -20,7 +20,7 @@ export default function ReturnsCalendar({ rows }: ReturnsCalendarProps) {
           return (
             <article
               key={item.month}
-              className={`min-h-20 rounded-xl border p-3 text-center ${
+              className={`min-h-20 rounded-sm border p-3 text-center ${
                 positive ? "border-[#14b8a6]/25 bg-[#14b8a6]/10" : "border-rose-500/25 bg-rose-500/10"
               }`}
             >

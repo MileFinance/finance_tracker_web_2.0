@@ -21,7 +21,7 @@ export default function QuickStatsRow({ summary, positions }: Props) {
   return (
     <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
       {stats.map((stat) => (
-        <article key={stat.label} className="rounded-2xl border border-[#334155] bg-black p-4">
+        <article key={stat.label} className="rounded-md bg-transparent border border-surface p-4">
           <p className="text-xs uppercase tracking-[0.14em] text-neutral-400">{stat.label}</p>
           <p className="mt-2 text-xl font-semibold text-white">{stat.value}</p>
         </article>

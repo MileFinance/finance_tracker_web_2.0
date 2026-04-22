@@ -73,13 +73,13 @@ export default function PerformanceChart({ snapshots30D, snapshots90D, snapshots
   const canGoForward = lastVisibleIndex < data.length - 1;
 
   return (
-    <section className="rounded-2xl border border-[#334155] bg-black p-5">
+    <section className="rounded-md bg-transparent border border-surface p-5">
       <header className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Performance</p>
           <h3 className="text-xl font-semibold text-white sm:text-2xl">Portfolio Value Trend</h3>
         </div>
-        <div className="inline-flex rounded-xl border border-[#334155] bg-black p-1 text-xs font-medium text-neutral-300">
+        <div className="inline-flex rounded-sm bg-transparent border border-surface p-1 text-xs font-medium text-neutral-300">
           {(["30D", "90D", "365D"] as const).map((range) => (
             <button
               key={range}
@@ -88,7 +88,7 @@ export default function PerformanceChart({ snapshots30D, snapshots90D, snapshots
                 setActiveRange(range);
                 onRangeChange?.(range);
               }}
-              className={`rounded-lg px-3 py-1 ${activeRange === range ? "bg-[#1e1e35] text-white" : "text-neutral-300"}`}
+              className={`rounded-sm px-3 py-1 ${activeRange === range ? "bg-[#1e1e35] text-white" : "text-neutral-300"}`}
             >
               {range}
             </button>
@@ -97,7 +97,7 @@ export default function PerformanceChart({ snapshots30D, snapshots90D, snapshots
       </header>
 
       {loading && data.length === 0 && (
-        <p className="text-sm text-neutral-400">Loading chart&hellip;</p>
+        <div className="h-60 animate-pulse rounded-md border border-surface bg-surface" />
       )}
 
       {!loading && data.length === 0 && (
@@ -111,7 +111,7 @@ export default function PerformanceChart({ snapshots30D, snapshots90D, snapshots
             <select
               value={fromDate}
               onChange={(event) => setFromDate(event.target.value)}
-              className="rounded-lg border border-[#334155] bg-black px-2 py-1 text-xs text-white"
+              className="rounded-sm bg-transparent border border-surface px-2 py-1 text-xs text-white"
             >
               {dateList.map((d) => (
                 <option key={d} value={d}>{d}</option>
@@ -121,7 +121,7 @@ export default function PerformanceChart({ snapshots30D, snapshots90D, snapshots
             <select
               value={toDate}
               onChange={(event) => setToDate(event.target.value)}
-              className="rounded-lg border border-[#334155] bg-black px-2 py-1 text-xs text-white"
+              className="rounded-sm bg-transparent border border-surface px-2 py-1 text-xs text-white"
             >
               {dateList.map((d) => (
                 <option key={d} value={d}>{d}</option>
@@ -131,7 +131,7 @@ export default function PerformanceChart({ snapshots30D, snapshots90D, snapshots
               type="button"
               onClick={() => shiftWindow(-1)}
               disabled={!canGoBack}
-              className="ml-auto rounded-lg border border-[#334155] bg-black px-3 py-1 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
+              className="ml-auto rounded-sm bg-transparent border border-surface px-3 py-1 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
             >
               Back
             </button>
@@ -139,19 +139,19 @@ export default function PerformanceChart({ snapshots30D, snapshots90D, snapshots
               type="button"
               onClick={() => shiftWindow(1)}
               disabled={!canGoForward}
-              className="rounded-lg border border-[#334155] bg-black px-3 py-1 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-sm bg-transparent border border-surface px-3 py-1 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
             >
               Next
             </button>
           </div>
 
           <div className="space-y-4">
-            <div className="overflow-x-auto rounded-2xl border border-[#334155] bg-black p-2 h-60">
+            <div className="overflow-x-auto rounded-md bg-transparent border border-surface p-2 h-60">
               <TradingViewChart series={tradingSeries} height={240} />
             </div>
 
             <div className="flex flex-wrap items-center gap-4 text-sm text-neutral-300">
-              <span className="inline-flex items-center gap-2"><span className="h-2 w-6 rounded-full bg-[#2dd4bf]" />Portfolio</span>
+              <span className="inline-flex items-center gap-2"><span className="h-2 w-6 rounded-full bg-[#14b8a6]" />Portfolio</span>
               {portfolioValues.length > 0 && (
                 <span className="ml-auto text-neutral-400">Latest: {currency.format(portfolioValues[portfolioValues.length - 1])}</span>
               )}
