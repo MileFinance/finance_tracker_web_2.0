@@ -7,7 +7,7 @@ type TransactionsTableProps = {
 
 export default function TransactionsTable({ rows }: TransactionsTableProps) {
   return (
-    <section className="rounded-2xl border border-[#334155] bg-black p-5">
+    <section className="rounded-md bg-transparent border border-surface p-5">
       <header className="mb-4 flex items-end justify-between">
         <div>
           <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Transactions</p>
@@ -16,9 +16,9 @@ export default function TransactionsTable({ rows }: TransactionsTableProps) {
         <p className="text-xs text-neutral-400">Mock pagination: page 1 of 1</p>
       </header>
 
-      <div className="overflow-x-auto rounded-2xl border border-[#334155]">
+      <div className="overflow-x-auto rounded-md">
         <table className="min-w-full text-left text-sm">
-          <thead className="bg-black text-xs uppercase tracking-[0.12em] text-neutral-400">
+          <thead className="bg-transparent border border-surface text-xs uppercase tracking-[0.12em] text-neutral-400">
             <tr>
               <th className="px-4 py-3">Date</th>
               <th className="px-4 py-3">Asset</th>

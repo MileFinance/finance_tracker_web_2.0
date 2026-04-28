@@ -31,7 +31,7 @@ export default function PortfolioSettings({ name, currency, onSave }: PortfolioS
   }
 
   return (
-    <section className="rounded-2xl border border-[#334155] bg-black p-5">
+    <section className="rounded-md bg-transparent border border-surface p-5">
       <header className="mb-4">
         <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Portfolio</p>
         <h2 className="text-xl font-semibold text-white sm:text-2xl">Portfolio Settings</h2>
@@ -40,7 +40,7 @@ export default function PortfolioSettings({ name, currency, onSave }: PortfolioS
         <label className="flex flex-col gap-1 text-sm text-neutral-300">
           Portfolio Name
           <input
-            className="rounded-xl border border-[#334155] bg-black px-3 py-2 text-white"
+            className="rounded-sm bg-transparent border border-surface px-3 py-2 text-white"
             value={editName}
             onChange={(e) => setEditName(e.target.value)}
           />
@@ -48,7 +48,7 @@ export default function PortfolioSettings({ name, currency, onSave }: PortfolioS
         <label className="flex flex-col gap-1 text-sm text-neutral-300">
           Base Currency
           <select
-            className="rounded-xl border border-[#334155] bg-black px-3 py-2 text-white"
+            className="rounded-sm bg-transparent border border-surface px-3 py-2 text-white"
             value={editCurrency}
             onChange={(e) => setEditCurrency(e.target.value)}
           >
@@ -63,7 +63,7 @@ export default function PortfolioSettings({ name, currency, onSave }: PortfolioS
         type="button"
         onClick={handleSave}
         disabled={saving || !onSave}
-        className="mt-4 rounded-xl border border-[#14b8a6]/30 bg-[#14b8a6]/10 px-4 py-2 text-sm font-semibold text-[#2dd4bf] disabled:opacity-50"
+        className="mt-4 rounded-sm border bg-[#14b8a6]/10 px-4 py-2 text-sm font-semibold text-[#2dd4bf] disabled:opacity-50"
       >
         {saving ? "Saving…" : saved ? "Saved!" : "Save Portfolio Settings"}
       </button>

@@ -1,4 +1,5 @@
 import type { PerformanceMetrics } from "@/lib/api/types";
+import { SkeletonCard } from "@/app/components/ui/skeleton";
 
 type Props = {
   metrics: PerformanceMetrics | null;
@@ -14,7 +15,7 @@ type Card = {
 function toneClasses(tone: Card["tone"]) {
   if (tone === "good") return "border-[#14b8a6]/30 text-[#2dd4bf]";
   if (tone === "warn") return "border-rose-500/30 text-rose-300";
-  return "border-[#334155] text-white";
+  return "text-white";
 }
 
 function pct(value: number) {
@@ -35,14 +36,16 @@ export default function PerformanceMetricsGrid({ metrics, loading }: Props) {
     : [];
 
   return (
-    <section className="rounded-2xl border border-[#334155] bg-black p-5">
+    <section className="rounded-md bg-transparent border border-surface p-5">
       <header className="mb-4">
         <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Performance metrics</p>
         <h3 className="text-xl font-semibold text-white sm:text-2xl">Risk and Return Snapshot</h3>
       </header>
 
       {loading && cards.length === 0 && (
-        <p className="text-sm text-neutral-400">Loading&hellip;</p>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)}
+        </div>
       )}
 
       {!loading && !metrics && (
@@ -51,7 +54,7 @@ export default function PerformanceMetricsGrid({ metrics, loading }: Props) {
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {cards.map((card) => (
-          <article key={card.label} className={`rounded-2xl border bg-black p-4 ${toneClasses(card.tone)}`}>
+          <article key={card.label} className={`rounded-md border bg-transparent border border-surface p-4 ${toneClasses(card.tone)}`}>
             <p className="text-xs uppercase tracking-[0.14em] text-neutral-400">{card.label}</p>
             <p className="mt-2 text-2xl font-semibold">{card.value}</p>
           </article>

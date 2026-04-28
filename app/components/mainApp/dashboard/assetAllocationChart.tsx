@@ -1,4 +1,5 @@
 import type { PositionWithMetrics } from "@/lib/api/types";
+import { Skeleton } from "@/app/components/ui/skeleton";
 
 type Props = {
   positions?: PositionWithMetrics[];
@@ -61,7 +62,7 @@ export default function AssetAllocationChart({ positions = [], loading }: Props)
       : "conic-gradient(#1e1e35 0% 100%)";
 
   return (
-    <section className="w-full rounded-2xl border border-[#334155] bg-black p-5">
+    <section className="w-full rounded-md  bg-transparent border border-surface p-5">
       <div className="space-y-5">
         <header className="space-y-2">
           <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Asset allocation</p>
@@ -69,17 +70,31 @@ export default function AssetAllocationChart({ positions = [], loading }: Props)
           <p className="text-sm text-neutral-300">Distribution of your portfolio value across asset classes.</p>
         </header>
 
-        {loading && slices.length === 0 && <p className="text-sm text-neutral-400">Loading&hellip;</p>}
+        {loading && slices.length === 0 && (
+          <div className="grid gap-6 lg:grid-cols-[220px_1fr] lg:items-center">
+            <div className="mx-auto">
+              <Skeleton className="h-52 w-52 rounded-full" />
+            </div>
+            <div className="flex flex-col gap-3">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="flex items-center justify-between rounded-md border border-surface px-4 py-3">
+                  <Skeleton className="h-3 w-1/3" />
+                  <Skeleton className="h-3 w-1/5" />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
         {!loading && slices.length === 0 && <p className="text-sm text-neutral-500">No positions yet.</p>}
 
         {slices.length > 0 && (
           <div className="grid gap-6 lg:grid-cols-[220px_1fr] lg:items-center">
             <div className="mx-auto">
               <div
-                className="grid h-52 w-52 place-items-center rounded-full border border-[#334155]"
+                className="grid h-52 w-52 place-items-center rounded-full"
                 style={{ backgroundImage: donutBackground }}
               >
-                <div className="grid h-28 w-28 place-items-center rounded-full bg-black ring-1 ring-[#334155]">
+                <div className="grid h-28 w-28 place-items-center rounded-full bg-transparent border border-surface">
                   <div className="text-center">
                     <p className="text-xs uppercase tracking-[0.14em] text-neutral-400">Total</p>
                     <p className="text-sm font-bold text-white">{formatCurrency(total)}</p>
@@ -92,7 +107,7 @@ export default function AssetAllocationChart({ positions = [], loading }: Props)
               {slices.map((slice) => (
                 <li
                   key={slice.name}
-                  className="flex items-center justify-between rounded-2xl border border-[#334155] bg-black px-4 py-3"
+                  className="flex items-center justify-between rounded-md bg-transparent border border-surface px-4 py-3"
                 >
                   <div className="flex items-center gap-3">
                     <span

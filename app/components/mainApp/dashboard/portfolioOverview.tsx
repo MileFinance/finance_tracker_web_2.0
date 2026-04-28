@@ -1,5 +1,6 @@
 
 import type { PortfolioSummary } from "@/lib/api/types";
+import { Skeleton, SkeletonCard } from "@/app/components/ui/skeleton";
 
 type Props = {
     summary: PortfolioSummary | null;
@@ -18,7 +19,7 @@ export default function PortfolioOverview({ summary, loading }: Props) {
         }).format(value);
 
     return (
-        <section className="w-full rounded-2xl border border-[#334155] bg-black p-5">
+        <section className="w-full rounded-md bg-transparent border border-surface p-5">
             <div className="space-y-5">
                 <header className="space-y-2">
                     <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Portfolio overview</p>
@@ -27,7 +28,11 @@ export default function PortfolioOverview({ summary, loading }: Props) {
                 </header>
 
                 {loading && !summary && (
-                    <p className="text-sm text-neutral-400">Loading…</p>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                        <SkeletonCard />
+                        <SkeletonCard />
+                        <SkeletonCard className="sm:col-span-2" />
+                    </div>
                 )}
 
                 {!loading && !summary && (
@@ -36,23 +41,23 @@ export default function PortfolioOverview({ summary, loading }: Props) {
 
                 {summary && (
                     <div className="grid gap-3 sm:grid-cols-2">
-                        <article className="rounded-2xl border border-[#334155] bg-black p-4">
+                        <article className="rounded-md bg-transparent border border-surface p-4">
                             <p className="text-xs uppercase tracking-[0.16em] text-neutral-400">Total Value</p>
                             <p className="mt-2 text-2xl font-black text-white">{formatCurrency(summary.total_value)}</p>
                         </article>
 
-                        <article className="rounded-2xl border border-[#334155] bg-black p-4">
+                        <article className="rounded-md bg-transparent border border-surface p-4">
                             <p className="text-xs uppercase tracking-[0.16em] text-neutral-400">Total Cost</p>
                             <p className="mt-2 text-2xl font-black text-white">{formatCurrency(summary.total_cost)}</p>
                         </article>
 
-                        <article className="rounded-2xl border border-[#14b8a6]/25 bg-black p-4 sm:col-span-2">
+                        <article className="rounded-md border bg-transparent border border-surface p-4 sm:col-span-2">
                             <div className="flex items-center justify-between gap-3">
                                 <div>
                                     <p className="text-xs uppercase tracking-[0.16em] text-neutral-400">Total Gain</p>
                                     <p className="mt-2 text-2xl font-semibold text-[#2dd4bf]">{formatCurrency(summary.total_gain)}</p>
                                 </div>
-                                <span className="rounded-full border border-[#14b8a6]/25 bg-[#14b8a6]/10 px-4 py-2 text-sm font-semibold text-[#2dd4bf]">
+                                <span className="rounded-full border bg-[#14b8a6]/10 px-4 py-2 text-sm font-semibold text-[#2dd4bf]">
                                     {(summary.total_gain_percent * 100).toFixed(2)}%
                                 </span>
                             </div>

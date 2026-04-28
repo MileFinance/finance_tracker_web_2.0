@@ -1,7 +1,30 @@
 import type { NextConfig } from "next";
+import fs from "fs";
+import path from "path";
+
+// Next.js 16 + Turbopack may not load .env.local before config evaluation
+const envLocalPath = path.join(process.cwd(), ".env.local");
+if (fs.existsSync(envLocalPath)) {
+  const lines = fs.readFileSync(envLocalPath, "utf8").split("\n");
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const eqIdx = trimmed.indexOf("=");
+    if (eqIdx === -1) continue;
+    const key = trimmed.slice(0, eqIdx).trim();
+    const val = trimmed.slice(eqIdx + 1).trim();
+    if (!process.env[key]) process.env[key] = val;
+  }
+}
+
+console.log("[next.config] NEXT_PUBLIC_API_BASE_URL =", process.env.NEXT_PUBLIC_API_BASE_URL);
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+
+  env: {
+    NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL ?? "",
+  },
 
   // Enable React strict mode for development
   reactStrictMode: true,
@@ -99,7 +122,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=3600, s-maxage=86400",
+            value: "no-store",
           },
           {
             key: "Content-Security-Policy",

@@ -1,4 +1,5 @@
 import type { PositionWithMetrics } from "@/lib/api/types";
+import { Skeleton } from "@/app/components/ui/skeleton";
 
 type Props = {
   positions: PositionWithMetrics[];
@@ -12,14 +13,23 @@ export default function TopPositionsTable({ positions, loading }: Props) {
 
   if (loading && sorted.length === 0) {
     return (
-      <section className="rounded-2xl border border-[#334155] bg-black p-5">
-        <p className="text-sm text-neutral-400">Loading positions&hellip;</p>
+      <section className="rounded-md bg-transparent border border-surface p-5">
+        <Skeleton className="mb-4 h-3 w-1/4" />
+        <Skeleton className="mb-6 h-6 w-1/2" />
+        <div className="flex flex-col gap-3">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="flex items-center justify-between">
+              <Skeleton className="h-3 w-1/3" />
+              <Skeleton className="h-3 w-1/5" />
+            </div>
+          ))}
+        </div>
       </section>
     );
   }
 
   return (
-    <section className="rounded-2xl border border-[#334155] bg-black p-5">
+    <section className="rounded-md bg-transparent border border-surface p-5">
       <header className="mb-4 flex items-end justify-between">
         <div>
           <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Top positions</p>
@@ -31,9 +41,9 @@ export default function TopPositionsTable({ positions, loading }: Props) {
       {sorted.length === 0 ? (
         <p className="text-sm text-neutral-500">No positions yet.</p>
       ) : (
-        <div className="overflow-x-auto rounded-2xl border border-[#334155]">
+        <div className="overflow-x-auto rounded-md">
           <table className="min-w-full text-left text-sm">
-            <thead className="bg-black text-xs uppercase tracking-[0.12em] text-neutral-400">
+            <thead className="bg-transparent border border-surface text-xs uppercase tracking-[0.12em] text-neutral-400">
               <tr>
                 <th className="px-4 py-3">Ticker / Name</th>
                 <th className="px-4 py-3">Shares</th>
@@ -46,7 +56,7 @@ export default function TopPositionsTable({ positions, loading }: Props) {
               {sorted.map((row) => {
                 const positive = row.gain >= 0;
                 return (
-                  <tr key={row.id} className="border-t border-[#334155] text-neutral-200">
+                  <tr key={row.id} className="border-t text-neutral-200">
                     <td className="px-4 py-3">
                       <p className="font-semibold text-white">{row.ticker}</p>
                       <p className="text-xs text-neutral-400">{row.name}</p>

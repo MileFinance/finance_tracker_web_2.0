@@ -74,7 +74,7 @@ export default function CumulativeReturnsChart({ points }: CumulativeReturnsChar
   const canGoForward = filtered.end < points.length - 1;
 
   return (
-    <section className="rounded-2xl border border-[#334155] bg-black p-5">
+    <section className="rounded-md bg-transparent border border-surface p-5">
       <header className="mb-4">
         <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Cumulative returns</p>
         <h2 className="text-xl font-semibold text-white sm:text-2xl">Portfolio Growth vs Gains-Only</h2>
@@ -85,7 +85,7 @@ export default function CumulativeReturnsChart({ points }: CumulativeReturnsChar
         <select
           value={fromPeriod}
           onChange={(event) => setFromPeriod(event.target.value)}
-          className="rounded-lg border border-[#334155] bg-black px-2 py-1 text-xs text-white"
+          className="rounded-sm bg-transparent border border-surface px-2 py-1 text-xs text-white"
         >
           {points.map((point) => (
             <option key={point.period} value={point.period}>
@@ -97,7 +97,7 @@ export default function CumulativeReturnsChart({ points }: CumulativeReturnsChar
         <select
           value={toPeriod}
           onChange={(event) => setToPeriod(event.target.value)}
-          className="rounded-lg border border-[#334155] bg-black px-2 py-1 text-xs text-white"
+          className="rounded-sm bg-transparent border border-surface px-2 py-1 text-xs text-white"
         >
           {points.map((point) => (
             <option key={point.period} value={point.period}>
@@ -109,7 +109,7 @@ export default function CumulativeReturnsChart({ points }: CumulativeReturnsChar
           type="button"
           onClick={() => shiftWindow(-1)}
           disabled={!canGoBack}
-          className="ml-auto rounded-lg border border-[#334155] bg-black px-3 py-1 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
+          className="ml-auto rounded-sm bg-transparent border border-surface px-3 py-1 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
         >
           Back
         </button>
@@ -117,18 +117,18 @@ export default function CumulativeReturnsChart({ points }: CumulativeReturnsChar
           type="button"
           onClick={() => shiftWindow(1)}
           disabled={!canGoForward}
-          className="rounded-lg border border-[#334155] bg-black px-3 py-1 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-sm bg-transparent border border-surface px-3 py-1 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
         >
           Next
         </button>
       </div>
 
-      <div className="rounded-2xl border border-[#334155] bg-black p-2 h-64">
+      <div className="rounded-md bg-transparent border border-surface p-2 h-64">
         <TradingViewChart series={tradingSeries} height={240} />
       </div>
 
       <div className="mt-3 flex flex-wrap gap-4 text-sm text-neutral-300">
-        <span className="inline-flex items-center gap-2"><span className="h-2 w-6 rounded-full bg-[#2dd4bf]" />Total value</span>
+        <span className="inline-flex items-center gap-2"><span className="h-2 w-6 rounded-full bg-[#14b8a6]" />Total value</span>
         <span className="inline-flex items-center gap-2"><span className="h-2 w-6 rounded-full bg-slate-400" />Excluding contributions</span>
         <span className="ml-auto text-neutral-400">Latest: {eur.format(values[values.length - 1])}</span>
       </div>

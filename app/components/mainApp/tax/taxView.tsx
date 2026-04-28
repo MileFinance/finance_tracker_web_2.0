@@ -101,15 +101,15 @@ export default function TaxView() {
   );
 
   return (
-    <div className="w-full flex-1 overflow-y-auto rounded-3xl border border-[#334155] bg-black p-3 sm:p-5">
+    <div className="w-full flex-1 overflow-y-auto bg-mainapp p-2 sm:p-3">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4">
-        <header className="rounded-2xl border border-[#334155] bg-black p-4">
+        <header className="rounded-md bg-transparent border border-surface p-4">
           <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Taxes</p>
           <h1 className="text-xl font-semibold text-white sm:text-2xl">Fiscality and Tax Reporting</h1>
         </header>
 
-        {loading ? <p className="rounded-2xl border border-[#334155] bg-black p-4 text-sm text-neutral-300">Loading tax data...</p> : null}
-        {error ? <p className="rounded-2xl border border-rose-500/20 bg-rose-500/10 p-4 text-sm text-rose-300">{error}</p> : null}
+        {loading ? <p className="rounded-md bg-transparent border border-surface p-4 text-sm text-neutral-300">Loading tax data...</p> : null}
+        {error ? <p className="rounded-md border border-rose-500/20 bg-rose-500/10 p-4 text-sm text-rose-300">{error}</p> : null}
 
         <TaxYearSelector years={availableYears} selected={selectedYear} onSelect={setSelectedYear} />
         <TaxSummary summary={summary} />

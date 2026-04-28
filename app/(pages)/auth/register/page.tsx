@@ -63,7 +63,7 @@ export default function RegisterView() {
     setIsSubmitting(true);
     try {
       await register({ email, password, name });
-      router.push("/mainApp?view=dashboard");
+      router.push("/onboarding");
     } finally {
       setIsSubmitting(false);
     }
@@ -131,7 +131,7 @@ export default function RegisterView() {
                   if (credentialResponse.credential) {
                     try {
                       await registerWithGoogle(credentialResponse.credential);
-                      router.push("/mainApp?view=dashboard");
+                      router.push("/onboarding");
                     } catch (error) {
                       console.error("Google sign-in failed:", error);
                     }

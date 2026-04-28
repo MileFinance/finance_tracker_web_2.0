@@ -38,16 +38,16 @@ export default function CreatePortfolioPage() {
   }
 
   return (
-    <div className="w-full flex-1 overflow-y-auto rounded-3xl border border-[#334155] bg-black p-3 sm:p-5">
+    <div className="w-full flex-1 overflow-y-auto rounded-md border border-[#334155] bg-black p-3 sm:p-5">
       <div className="mx-auto flex w-full max-w-4xl flex-col gap-4">
-        <header className="rounded-2xl border border-[#334155] bg-black p-4">
+        <header className="rounded-md border border-[#334155] bg-black p-4">
           <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Investments</p>
           <h1 className="text-xl font-semibold text-white sm:text-2xl">Create Portfolio</h1>
         </header>
 
-        <section className="rounded-2xl border border-[#334155] bg-black p-5">
-          {error ? <p className="mb-3 rounded-xl border border-rose-500/20 bg-rose-500/10 px-3 py-2 text-sm text-rose-300">{error}</p> : null}
-          {success ? <p className="mb-3 rounded-xl border border-[#14b8a6]/30 bg-[#14b8a6]/10 px-3 py-2 text-sm text-[#2dd4bf]">{success}</p> : null}
+        <section className="rounded-md border border-[#334155] bg-black p-5">
+          {error ? <p className="mb-3 rounded-sm border border-rose-500/20 bg-rose-500/10 px-3 py-2 text-sm text-rose-300">{error}</p> : null}
+          {success ? <p className="mb-3 rounded-sm border border-[#14b8a6]/30 bg-[#14b8a6]/10 px-3 py-2 text-sm text-[#2dd4bf]">{success}</p> : null}
           <form onSubmit={onSubmit}>
           <div className="grid gap-3 sm:grid-cols-2">
             <label className="flex flex-col gap-1 text-sm text-neutral-300">
@@ -56,14 +56,14 @@ export default function CreatePortfolioPage() {
                 required
                 value={name}
                 onChange={(event) => setName(event.target.value)}
-                className="rounded-xl border border-[#334155] bg-black px-3 py-2 text-white"
+                className="rounded-sm border border-[#334155] bg-black px-3 py-2 text-white"
                 placeholder="Income + Growth"
               />
             </label>
             <label className="flex flex-col gap-1 text-sm text-neutral-300">
               Base Currency
               <select
-                className="rounded-xl border border-[#334155] bg-black px-3 py-2 text-white"
+                className="rounded-sm border border-[#334155] bg-black px-3 py-2 text-white"
                 value={baseCurrency}
                 onChange={(event) => setBaseCurrency(event.target.value)}
               >
@@ -76,7 +76,7 @@ export default function CreatePortfolioPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="mt-4 rounded-xl border border-[#14b8a6]/30 bg-[#14b8a6]/10 px-4 py-2 text-sm font-semibold text-[#2dd4bf]"
+            className="mt-4 rounded-sm border border-[#14b8a6]/30 bg-[#14b8a6]/10 px-4 py-2 text-sm font-semibold text-[#2dd4bf]"
           >
             {isSubmitting ? "Creating..." : "Create Portfolio"}
           </button>

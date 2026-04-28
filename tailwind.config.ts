@@ -1,8 +1,13 @@
+import { Main } from 'next/document';
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
   theme: {
     extend: {
+      colors: {
+        mainapp: '#08090a',
+        surface: '#202020',
+      },
       fontFamily: {
         sans: ['var(--font-alpino)', 'system-ui', 'sans-serif'],
         serif: ['var(--font-sentient)', 'serif'],

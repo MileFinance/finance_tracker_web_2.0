@@ -30,14 +30,14 @@ export default function ComparisonMetrics({ metrics }: ComparisonMetricsProps) {
   ];
 
   return (
-    <section className="rounded-2xl border border-[#334155] bg-black p-5">
+    <section className="rounded-md bg-transparent border border-surface p-5">
       <header className="mb-4">
         <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Comparison metrics</p>
         <h3 className="text-xl font-semibold text-white sm:text-2xl">Alpha and Risk Breakdown</h3>
       </header>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {cards.map((card) => (
-          <article key={card.label} className="rounded-2xl border border-[#334155] bg-black p-4">
+          <article key={card.label} className="rounded-md bg-transparent border border-surface p-4">
             <p className="text-xs uppercase tracking-[0.14em] text-neutral-400">{card.label}</p>
             <p className="mt-2 text-2xl font-semibold text-white">{card.value}</p>
           </article>

@@ -48,7 +48,7 @@ export default function PerformanceChartAnalytics({ snapshots }: PerformanceChar
   const canGoForward = lastVisibleIndex < snapshots.length - 1;
 
   return (
-    <section className="rounded-2xl border border-[#334155] bg-black p-5">
+    <section className="rounded-md bg-transparent border border-surface p-5">
       <header className="mb-4">
         <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Performance curve</p>
         <h3 className="text-xl font-semibold text-white sm:text-2xl">Portfolio Growth Over Time</h3>
@@ -58,7 +58,7 @@ export default function PerformanceChartAnalytics({ snapshots }: PerformanceChar
         <select
           value={fromDate}
           onChange={(event) => setFromDate(event.target.value)}
-          className="rounded-lg border border-[#334155] bg-black px-2 py-1 text-xs text-white"
+          className="rounded-sm bg-transparent border border-surface px-2 py-1 text-xs text-white"
         >
           {snapshots.map((item) => (
             <option key={item.date} value={item.date}>
@@ -70,7 +70,7 @@ export default function PerformanceChartAnalytics({ snapshots }: PerformanceChar
         <select
           value={toDate}
           onChange={(event) => setToDate(event.target.value)}
-          className="rounded-lg border border-[#334155] bg-black px-2 py-1 text-xs text-white"
+          className="rounded-sm bg-transparent border border-surface px-2 py-1 text-xs text-white"
         >
           {snapshots.map((item) => (
             <option key={item.date} value={item.date}>
@@ -82,7 +82,7 @@ export default function PerformanceChartAnalytics({ snapshots }: PerformanceChar
           type="button"
           onClick={() => shiftWindow(-1)}
           disabled={!canGoBack}
-          className="ml-auto rounded-lg border border-[#334155] bg-black px-3 py-1 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
+          className="ml-auto rounded-sm bg-transparent border border-surface px-3 py-1 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
         >
           Back
         </button>
@@ -90,12 +90,12 @@ export default function PerformanceChartAnalytics({ snapshots }: PerformanceChar
           type="button"
           onClick={() => shiftWindow(1)}
           disabled={!canGoForward}
-          className="rounded-lg border border-[#334155] bg-black px-3 py-1 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-sm bg-transparent border border-surface px-3 py-1 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
         >
           Next
         </button>
       </div>
-      <div className="overflow-x-auto rounded-2xl border border-[#334155] bg-black p-2 h-56">
+      <div className="overflow-x-auto rounded-md bg-transparent border border-surface p-2 h-56">
         <TradingViewChart series={tradingSeries} height={220} />
       </div>
     </section>
