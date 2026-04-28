@@ -30,7 +30,7 @@ export default function MainAppLayout({
 
     return (
         <PortfolioProvider>
-          <main className="mainapp-card-soft mainapp-shell-black flex h-screen w-full gap-4 bg-black p-4 sm:p-6">
+          <main className="flex h-screen w-full" style={{ backgroundColor: "#252422" }}>
             <NavBar />
             {children}
           </main>

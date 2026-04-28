@@ -11,8 +11,8 @@ export default function LoginView() {
   const router = useRouter();
   const { login, loginWithGoogle, authError, clearAuthError } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(process.env.NEXT_PUBLIC_DEV_EMAIL ?? "");
+  const [password, setPassword] = useState(process.env.NEXT_PUBLIC_DEV_PASSWORD ?? "");
   const [twoFactorCode, setTwoFactorCode] = useState("");
   const [needsTwoFactor, setNeedsTwoFactor] = useState(false);
 

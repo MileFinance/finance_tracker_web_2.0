@@ -18,7 +18,9 @@ const nextConfig: NextConfig = {
   },
 
   // Turbopack configuration (Next.js 16 uses Turbopack by default)
-  turbopack: {},
+  turbopack: {
+    root: __dirname,
+  },
 
   // Security and SEO headers
   async headers() {

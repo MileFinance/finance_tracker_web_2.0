@@ -157,6 +157,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(
     async (payload: LoginRequest) => {
+      const devEmail = process.env.NEXT_PUBLIC_DEV_EMAIL;
+      const devPassword = process.env.NEXT_PUBLIC_DEV_PASSWORD;
+      if (
+        process.env.NODE_ENV === "development" &&
+        devEmail && devPassword &&
+        payload.email === devEmail &&
+        payload.password === devPassword
+      ) {
+        applyAuthResponse({
+          token: "dev-mock-token",
+          user: { id: 0, email: devEmail, name: "Dev User", created_at: new Date().toISOString() },
+        });
+        return;
+      }
       try {
         const auth = await apiClient.login(payload);
         applyAuthResponse(auth);

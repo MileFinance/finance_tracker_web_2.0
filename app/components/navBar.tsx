@@ -50,8 +50,8 @@ export default function NavBar() {
     }
 
     return (
-        <div className="flex-1  h-full max-w-[18rem] rounded-4xl bg-black justify-between flex-col hidden sm:flex backdrop-blur-sm ">
-            <nav className="m-10 flex flex-col">
+        <div className="h-full w-56 shrink-0 flex justify-between flex-col hidden sm:flex" style={{ backgroundColor: "#252422" }}>
+            <nav className="px-6 pt-8 flex flex-col">
                 <h1 className="text-3xl font-black">Overview</h1>
                 <ul className="mt-4 flex flex-col gap-2">
                     {navItems.map((item) => {
@@ -96,7 +96,7 @@ export default function NavBar() {
                 </ul>
             </nav>
             <nav>
-                <ul className="m-10 mt-auto flex flex-col gap-2">
+                <ul className="px-6 pb-8 mt-auto flex flex-col gap-2">
                     <li>
                         <Link
                             href="/mainApp/portfolio"

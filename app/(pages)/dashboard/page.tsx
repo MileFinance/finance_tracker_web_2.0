@@ -87,7 +87,7 @@ export default function Dashboard() {
   }, [loadDashboard]);
 
   return (
-    <div className="mainapp-card-soft w-full flex-1 overflow-y-auto rounded-3xl border border-[#334155] bg-black p-3 sm:p-5">
+    <div className="w-full flex-1 overflow-y-auto p-3 sm:p-5" style={{ backgroundColor: "#252422" }}>
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4">
         <header className="flex flex-col gap-3 rounded-2xl border border-[#334155] bg-black p-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
